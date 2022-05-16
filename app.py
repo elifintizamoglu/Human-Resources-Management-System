@@ -13,7 +13,7 @@ class Candidates(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
-    identity_number = db.Column(db.String(11), nullable=False)
+    identity_number = db.Column(db.String(11), nullable=False) 
     date_of_birth = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, first_name, last_name, identity_number, date_of_birth):

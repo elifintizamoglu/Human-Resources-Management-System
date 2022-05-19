@@ -1,10 +1,12 @@
+from calendar import c
+from email.policy import default
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:246135@localhost:5432/hrms_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:246135@localhost:5432/HRMS_DB'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -12,28 +14,32 @@ migrate = Migrate(app, db)
 class Candidates(db.Model):
     __tablename__ = 'candidates'
 
-    id = db.Column(db.Integer,  primary_key=True, autoincrement=True, nullable=False)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     identity_number = db.Column(db.String(11), unique=True, nullable=False)
     date_of_birth = db.Column(db.DateTime, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(25), nullable=False)
+    resumes = db.relationship('Resumes', backref='candidate')
 
-    def __init__(self, first_name, last_name, identity_number, date_of_birth):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, name, identity_number, date_of_birth, email, password):
+        self.name = name
         self.identity_number = identity_number
         self.date_of_birth = date_of_birth
+        self.email = email
+        self.password = password
 
     def __repr__(self):
-        return '<user_id {}>'.format(self.user_id)
+        return '<id {}>'.format(self.id)
 
 def format_cantidates(candidate):
     return{
         "id": candidate.id,
-        "first_name": candidate.first_name,
-        "last_name": candidate.last_name,
+        "name": candidate.name,
         "identity_number": candidate.identity_number,
-        "date_of_birth": candidate.date_of_birth
+        "date_of_birth": candidate.date_of_birth,
+        "email": candidate.email,
+        "password": candidate.password
     }
 
 class Educations(db.Model):
@@ -78,39 +84,44 @@ class Employers(db.Model):
     company_name = db.Column(db.String(150), nullable=False)
     web_address = db.Column(db.String(150), nullable=False)
     phone_number = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(25), nullable=False)
 
-    def __init__(self, company_name, web_address, phone_number):
+    def __init__(self, company_name, web_address, phone_number, email, password):
         self.company_name = company_name
         self.web_address = web_address
         self.phone_number = phone_number
+        self.email = email
+        self.password = password
 
     def __repr__(self):
-        return '<user_id {}>'.format(self.user_id)
+        return '<id {}>'.format(self.id)
 
 def format_employers(employer):
     return{
         "id": employer.id,
         "company_name": employer.company_name,
         "web_address": employer.web_address,
-        "phone_number": employer.phone_number
+        "phone_number": employer.phone_number,
+        "email": employer.email,
+        "password": employer.password
     }
     
-class Experinces(db.Model):
+class Experiences(db.Model):
     __tablename__ = 'experiences'
 
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, nullable=False)
     resume_id = db.Column(db.Integer, db.ForeignKey(
         'resumes.id'), nullable=False)
-    job_title_id = db.Column(db.Integer, db.ForeignKey(
-        'job_titles.id'), nullable=False)
+    job_title = db.Column(db.String(50),  nullable=False)
     company_name = db.Column(db.String(150), nullable=False)
     starting_date = db.Column(db.DateTime, nullable=False)
     termination_date = db.Column(db.DateTime)
 
-    def __init__(self, resume_id, job_title_id, company_name, starting_date, termination_date):
+    def __init__(self, resume_id, job_title, company_name, starting_date, termination_date):
         self.resume_id = resume_id
-        self.job_title_id = job_title_id
+        self.job_title = job_title
         self.company_name = company_name
         self.starting_date = starting_date
         self.termination_date = termination_date
@@ -118,15 +129,14 @@ class Experinces(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-
-def format_experinces(experince):
+def format_experiences(experience):
     return{
-        "id": experince.id,
-        "resume_id": experince.resume_id,
-        "job_title__id": experince.job_title__id,
-        "company_name": experince.company_name,
-        "starting_date": experince.starting_date,
-        "termination_date": experince.termination_date
+        "id": experience.id,
+        "resume_id": experience.resume_id,
+        "job_title": experience.job_title,
+        "company_name": experience.company_name,
+        "starting_date": experience.starting_date,
+        "termination_date": experience.termination_date
     }
 
 class Job_postings(db.Model):
@@ -134,10 +144,8 @@ class Job_postings(db.Model):
 
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, nullable=False)
-    employer_id = db.Column(db.Integer, db.ForeignKey(
-        'employers.user_id'), nullable=False)
-    job_title_id = db.Column(db.Integer, db.ForeignKey(
-        'job_titles.id'), nullable=False)
+    company_name = db.Column(db.String(150), nullable=False)
+    job_title = db.Column(db.String(50), nullable=False)
     job_description = db.Column(db.String(2300), nullable=False)
     salary_min = db.Column(db.String(50))
     salary_max = db.Column(db.String(50))
@@ -145,9 +153,9 @@ class Job_postings(db.Model):
     closing_date = db.Column(db.DateTime)
     isActive = db.Column(db.Boolean, nullable=False)
 
-    def __init__(self, employer_id, job_title_id, job_description, salary_min, salary_max, posting_date, closing_date, isActive):
-        self.employer_id = employer_id
-        self.job_title_id = job_title_id
+    def __init__(self,  company_name, job_title, job_description, salary_min, salary_max, posting_date, closing_date, isActive):
+        self.company_name = company_name
+        self.job_title = job_title
         self.job_description = job_description
         self.salary_min = salary_min
         self.salary_max = salary_max
@@ -158,58 +166,17 @@ class Job_postings(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-
 def format_job_postings(job_posting):
     return{
         "id": job_posting.id,
-        "employer_id": job_posting.employer_id,
-        "job_title__id": job_posting.job_title__id,
+        "company_name": job_posting.company_name,
+        "job_title": job_posting.job_title,
         "job_description": job_posting.job_description,
         "salary_min": job_posting.salary_min,
         "salary_max": job_posting.salary_max,
         "posting_date": job_posting.posting_date,
         "closing_date": job_posting.closing_date,
-        "isActive" : job_posting.isActive
-    }
-
-class Job_titles(db.Model):
-    __tablename__ = 'job_titles'
-
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    title = db.Column(db.String(150), unique=True, nullable=False)
-
-    def _init_(self, title):
-        self.title = title
-
-    def _repr_(self):
-        return '<id %r>' % self.id
-
-
-def format_job_titles(job_title):
-    return{
-        "id": job_title.id,
-        "title": job_title.title
-    }
-
-class Languages(db.Model):
-    __tablename__ = 'languages'
-
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    language = db.Column(db.String(50), unique=True, nullable=False)
-
-    def _init_(self, language):
-        self.language = language
-
-    def _repr_(self):
-        return '<id %r>' % self.id
-
-
-def format_languages(language):
-    return{
-        "id": language.id,
-        "language": language.language
+        "isActive": job_posting.isActive
     }
 
 class Resumes(db.Model):
@@ -218,12 +185,18 @@ class Resumes(db.Model):
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, nullable=False)
     candidate_id = db.Column(db.Integer, db.ForeignKey(
-        'candidates.user_id'), nullable=False)
-    creation_date = db.Column(db.DateTime, nullable=False)
+        'candidates.id'), nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False,default=datetime.now)
+    educations = db.relationship('Educations', backref='resume')
+    experiences = db.relationship('Experiences', backref='resume')
+    skills = db.Column(db.String(300), nullable=False)
+    languages = db.Column(db.String(300), nullable=False)
 
-    def _init_(self, candidate_id, creation_date):
+    def _init_(self, candidate_id, creation_date,skills,languages):
         self.candidate_id = candidate_id
         self.creation_date = creation_date
+        self.skills = skills
+        self.languages= languages
 
     def _repr_(self):
         return '<id %r>' % self.id
@@ -233,119 +206,89 @@ def format_resumes(resume):
     return{
         "id": resume.id,
         "candidate_id": resume.resume_id,
-        "creation_date": resume.creatiob_date
+        "creation_date": resume.creatiob_date,
+        "skills":resume.skills,
+        "languages":resume.languages
     }
 
-class Skills(db.Model):
-    __tablename__ = 'skills'
-
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    resume_id = db.Column(db.Integer, db.ForeignKey(
-        'resumes.id'), nullable=False)
-    skill = db.Column(db.String(150), nullable=False)
-
-    def _init_(self, resume_id, skill):
-        self.resume_id = resume_id
-        self.skill = skill
-
-    def _repr_(self):
-        return '<id %r>' % self.id
-
-
-def format_skills(skill):
-    return{
-        "id": skill.id,
-        "resume_id": skill.resume_id,
-        "skill" : skill.skill
-    }
-
-class Updated_employers(db.Model):
-    __tablename__ = 'updated_employers'
-
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    employer_id = db.Column(db.Integer, db.ForeignKey(
-        'employers.user_id'), nullable=False)
-    email = db.Column(db.String(150), nullable=False)
-    password = db.Column(db.String(25), nullable=False)
-    company_name = db.Column(db.String(150), nullable=False)
-    web_address = db.Column(db.String(150), nullable=False)
-    phone_number = db.Column(db.String(15), nullable=False)
-
-    def _init_(self, employer_id, email, password, company_name, web_address, phone_number):
-        self.employer_id = employer_id
-        self.email = email
-        self.password = password
-        self.company_name = company_name
-        self.web_address = web_address
-        self.phone_number = phone_number
-
-    def _repr_(self):
-        return '<id %r>' % self.id
-
-
-def format_updated_employers(updated_employer):
-    return{
-        "employer_id": updated_employer.employer_id,
-        "email": updated_employer.email,
-        "password": updated_employer.password,
-        "company_name": updated_employer.company_name,
-        "web_address": updated_employer.web_address,
-        "phone_number": updated_employer.phone_number
-    }
-
-
-class Users(db.Model):
-    __tablename__ = "users"
-
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(25), nullable=False)
-
-    def _init_(self, email, password):
-        self.email = email
-        self.password = password
-
-    def _repr_(self):
-        return '<id %r>' % self.id
-
-
-def format_users(user):
-    return{
-        "id": user.id,
-        "email": user.email,
-        "password": user.password
-    }
-    
-@app.route('/candidates/add' , methods = ['POST'])
+@app.route('/candidates/add', methods=['POST'])
 def crate_candidate():
-    first_name = request.json['first_name']
-    last_name = request.json['last_name']
+    name = request.json['name']
     identity_number = request.json['identity_number']
     date_of_birth = request.json['date_of_birth']
-    candidate = Candidates(first_name=first_name,last_name=last_name,identity_number=identity_number,date_of_birth=identity_number)
-    db.session.add(candidate)
+    email = request.json['email']
+    password = request.json['password']
+    new_candidate = Candidates(name=name,identity_number=identity_number, date_of_birth=date_of_birth,email=email,password=password)
+    db.session.add(new_candidate)
     db.session.commit()
-    return format_cantidates(candidate)
+    return format_cantidates(new_candidate)
 
-@app.route('/job_titles/add', methods=['POST'])
-def create_title():
-        title=request.json['title']
-        new_job_title= Job_titles(title=title)
-        db.session.add(new_job_title)
-        db.session.commit()
-        return format_users(new_job_title)
-    
-@app.route('/users/add', methods=['POST'])
-def create_user():
-        email=request.json['email']
-        password = request.json['password']
-        new_user= Users(email=email,password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        return format_users(new_user)
-    
+@app.route('/educations/add', methods=['POST'])
+def create_education():
+    resume_id = request.json['resume_id']
+    name_of_educational_institution = request.json['name_of_educational_institution']
+    department = request.json['department']
+    degree = request.json['degree']
+    starting_date = request.json['starting_date']
+    graduation_date = request.json['graduation_date']
+    new_job_posting = Job_postings(resume_id=resume_id, name_of_educational_institution=name_of_educational_institution,
+                                   department=department, degree=degree, starting_date=starting_date, graduation_date=graduation_date)
+    db.session.add(new_job_posting)
+    db.session.commit()
+    return format_job_postings(new_job_posting)
+
+@app.route('/employers/add', methods=['POST'])
+def create_employer():
+    company_name = request.json['company_name']
+    web_address = request.json['web_address']
+    phone_number = request.json['phone_number']
+    email = request.json['email']
+    password = request.json['password']
+    new_employer = Employers(company_name=company_name,
+                             web_address=web_address, phone_number=phone_number,email=email,password=password)
+    db.session.add(new_employer)
+    db.session.commit()
+    return format_employers(new_employer)
+
+@app.route('/experiences/add', methods=['POST'])
+def create_experience():
+    resume_id = request.json['resume_id']
+    job_title_id = request.json['job_title_id']
+    company_name = request.json['company_name']
+    starting_date = request.json['starting_date']
+    termination_date = request.json['termination_date']
+    new_experience = Experiences(resume_id=resume_id, job_title_id=job_title_id,
+                                 company_name=company_name, starting_date=starting_date, termination_date=termination_date)
+    db.session.add(new_experience)
+    db.session.commit()
+    return format_job_postings(new_experience)
+
+@app.route('/job_postings/add', methods=['POST'])
+def create_job_posting():
+    company_name = request.json['company_name']
+    job_title = request.json['job_title_id']
+    job_description = request.json['job_description']
+    salary_min = request.json['salary_min']
+    salary_max = request.json['salary_max']
+    posting_date = request.json['posting_date']
+    closing_date = request.json['closing_date']
+    isActive = request.json['isActive']
+    new_job_posting = Job_postings(company_name=company_name, job_title=job_title, job_description=job_description,
+                                   salary_min=salary_min, salary_max=salary_max, posting_date=posting_date, closing_date=closing_date, isActive=isActive)
+    db.session.add(new_job_posting)
+    db.session.commit()
+    return format_job_postings(new_job_posting)
+
+@app.route('/resumes/add', methods=['POST'])
+def create_resume():
+    candidate_id = request.json['candidate_id']
+    creation_date = request.json['creation_date']
+    skills = request.json['skills']
+    languages = request.json['languages']
+    new_resume = Resumes(candidate_id=candidate_id, creation_date=creation_date, skills=skills, languages=languages)
+    db.session.add(new_resume)
+    db.session.commit()
+    return format_resumes(new_resume)
+
 if __name__ == "__main__":
-    app.run(host = 'localhost', port = 5000, debug=True)
+    app.run(host='localhost', port=5000, debug=True)

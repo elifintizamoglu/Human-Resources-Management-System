@@ -32,7 +32,7 @@ class Candidates(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-def format_cantidates(candidate):
+def format_candidates(candidate):
     return{
         "id": candidate.id,
         "name": candidate.name,
@@ -201,7 +201,6 @@ class Resumes(db.Model):
     def _repr_(self):
         return '<id %r>' % self.id
 
-
 def format_resumes(resume):
     return{
         "id": resume.id,
@@ -221,7 +220,41 @@ def crate_candidate():
     new_candidate = Candidates(name=name,identity_number=identity_number, date_of_birth=date_of_birth,email=email,password=password)
     db.session.add(new_candidate)
     db.session.commit()
-    return format_cantidates(new_candidate)
+    return format_candidates(new_candidate)
+
+@app.route('/candidates/get', methods=['GET'])
+def get_candidates():
+    candidates = Candidates.query.order_by(Candidates.id.asc()).all()
+    candidate_lists=[]
+    for candidate in candidates:
+        candidate_lists.append(format_candidates(candidate))
+    return {'candidates': candidate_lists}
+
+@app.route('/candidates/get/<id>', methods=['GET'])
+def get_candidate(id):
+    candidate = Candidates.query.filter_by(id=id).one()
+    formatted_candidate = format_candidates(candidate)
+    return {'candidate': formatted_candidate}
+
+@app.route('/candidates/delete/<id>', methods=['DELETE'])
+def delete_candidate(id):
+    candidate = Candidates.query.filter_by(id=id).one()
+    db.session.delete(candidate)
+    db.session.commit()
+    return f'Candidate (id: {id}) deleted'
+
+@app.route('/candidates/update', methods=['PUT'])
+def update_candidate():
+    candidate = Candidates.query.filter_by(id=id)
+    name = request.json['name']
+    identity_number = request.json['identity_number']
+    date_of_birth = request.json['date_of_birth']
+    email = request.json['email']
+    password = request.json['password']
+    candidate.update(dict(name=name, identity_number=identity_number,
+                          date_of_birth=date_of_birth, email=email, password=password))
+    db.session.commit()
+    return {'candidate': format_candidates(candidate.one())}
 
 @app.route('/educations/add', methods=['POST'])
 def create_education():
@@ -237,6 +270,41 @@ def create_education():
     db.session.commit()
     return format_job_postings(new_job_posting)
 
+@app.route('/educations/get', methods=['GET'])
+def get_educations():
+    educations = Educations.query.order_by(Educations.id.asc()).all()
+    education_lists = []
+    for education in educations:
+        education_lists.append(format_educations(education))
+    return {'educations': education_lists}
+
+@app.route('/educations/get/<id>', methods=['GET'])
+def get_education(id):
+    education = Educations.query.filter_by(id=id).one()
+    formatted_education = format_educations(education)
+    return {'education': formatted_education}
+
+@app.route('/educations/delete/<id>', methods=['DELETE'])
+def delete_education(id):
+    education = Educations.query.filter_by(id=id).one()
+    db.session.delete(education)
+    db.session.commit()
+    return f'Education (id: {id}) deleted'
+
+@app.route('/educations/update', methods=['PUT'])
+def update_education():
+    education = Educations.query.filter_by(id=id)
+    resume_id = request.json['resume_id']
+    name_of_educational_institution = request.json['name_of_educational_institution']
+    department = request.json['department']
+    degree = request.json['degree']
+    starting_date = request.json['starting_date']
+    graduation_date = request.json['graduation_date']
+    education.update(dict(resume_id=resume_id, name_of_educational_institution=name_of_educational_institution,
+                          department=department, degree=degree, starting_date=starting_date, graduation_date=graduation_date))
+    db.session.commit()
+    return {'education': format_educations(education.one())}
+
 @app.route('/employers/add', methods=['POST'])
 def create_employer():
     company_name = request.json['company_name']
@@ -250,6 +318,40 @@ def create_employer():
     db.session.commit()
     return format_employers(new_employer)
 
+@app.route('/employers/get', methods=['GET'])
+def get_employers():
+    employers = Employers.query.order_by(Employers.id.asc()).all()
+    employer_lists = []
+    for employer in employers:
+        employer_lists.append(format_employers(employers))
+    return {'employers': employer_lists}
+
+@app.route('/employers/get/<id>', methods=['GET'])
+def get_employer(id):
+    employer = Employers.query.filter_by(id=id).one()
+    formatted_employers = format_employers(employer)
+    return {'employer': formatted_employers}
+
+@app.route('/employers/delete/<id>', methods=['DELETE'])
+def delete_employer(id):
+    employer = Employers.query.filter_by(id=id).one()
+    db.session.delete(employer)
+    db.session.commit()
+    return f'Employer (id: {id}) deleted'
+
+@app.route('/employers/update', methods=['PUT'])
+def update_employer():
+    employer = Employers.query.filter_by(id=id)
+    company_name = request.json['company_name']
+    web_address = request.json['web_address']
+    phone_number = request.json['phone_number']
+    email = request.json['email']
+    password = request.json['password']
+    employer.update(dict(company_name=company_name,
+                         web_address=web_address, phone_number=phone_number, email=email, password=password))
+    db.session.commit()
+    return {'employer': format_employers(employer.one())}
+
 @app.route('/experiences/add', methods=['POST'])
 def create_experience():
     resume_id = request.json['resume_id']
@@ -262,6 +364,40 @@ def create_experience():
     db.session.add(new_experience)
     db.session.commit()
     return format_job_postings(new_experience)
+
+@app.route('/experiences/get', methods=['GET'])
+def get_experiences():
+    experiences = Experiences.query.order_by(Experiences.id.asc()).all()
+    experience_lists = []
+    for experience in experiences:
+        experience_lists.append(format_experiences(experience))
+    return {'experiences': experience_lists}
+
+@app.route('/experiences/get/<id>', methods=['GET'])
+def get_experience(id):
+    experience = Experiences.query.filter_by(id=id).one()
+    formatted_experience = format_experiences(experience)
+    return {'experience': formatted_experience}
+
+@app.route('/experiences/delete/<id>', methods=['DELETE'])
+def delete_experiencen(id):
+    experience = Experiences.query.filter_by(id=id).one()
+    db.session.delete(experience)
+    db.session.commit()
+    return f'Experience (id: {id}) deleted'
+
+@app.route('/experiences/update', methods=['PUT'])
+def update_experience():
+    experience = Experiences.query.filter_by(id=id)
+    resume_id = request.json['resume_id']
+    job_title_id = request.json['job_title_id']
+    company_name = request.json['company_name']
+    starting_date = request.json['starting_date']
+    termination_date = request.json['termination_date']
+    experience.update(dict(resume_id=resume_id, job_title_id=job_title_id,
+                           company_name=company_name, starting_date=starting_date, termination_date=termination_date))
+    db.session.commit()
+    return {'education': format_educations(experience.one())}
 
 @app.route('/job_postings/add', methods=['POST'])
 def create_job_posting():

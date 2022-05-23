@@ -23,7 +23,7 @@ def login():
                 print('Incorrect password')
         else:
             print('Email does nor exist')
-    return render_template("login.html", c_user=current_user)
+    return render_template("login.html", candidate=current_user)
 
 @auth.route('/logout')
 @login_required

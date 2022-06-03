@@ -1,7 +1,9 @@
 import datetime
-from .models import Candidates,Educations,Employers,Experiences,Job_postings,Resumes
-from .models import format_candidates,format_educations,format_employers,format_experiences,format_resumes,format_job_postings
-from flask import Blueprint, request, session
+
+from flask_login import current_user
+from .models import *
+#from .models import format_candidates,format_educations,format_employers,format_experiences,format_resumes,format_job_postings
+from flask import Blueprint, request, session, redirect, url_for,render_template
 #from __init__ import reqst
 from . import db
 
@@ -250,15 +252,7 @@ def update_job_posting():
     db.session.commit()
     return {'Job_posting': format_job_postings(job_posting.one())}
 
-@reqst.route('/resumes/add', methods=['POST'])
-def create_resume():
-    candidate_id = session["id"]
-    skills = request.json['skills']
-    languages = request.json['languages']
-    new_resume = Resumes(candidate_id=candidate_id, creation_date=datetime.now, skills=skills, languages=languages)
-    db.session.add(new_resume)
-    db.session.commit()
-    return format_resumes(new_resume)
+
 
 @reqst.route('/resumes/get', methods=['GET'])
 def get_resumes():

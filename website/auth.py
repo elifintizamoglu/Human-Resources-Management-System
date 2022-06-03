@@ -1,29 +1,41 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from .models import Candidates, Employers
+import datetime
+from flask import Blueprint, render_template, request, redirect, url_for, session
+from .models import Candidates, Employers,Resumes
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['GET','POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method=='POST':
-        email=request.form.get('email')
+    if request.method == 'POST':
+        email = request.form.get('email')
         password = request.form.get('password')
 
         candidate = Candidates.query.filter_by(email=email).first()
-
+        employer = Employers.query.filter_by(email=email).first()
         if candidate:
-            if check_password_hash(candidate.password,password):
+            if check_password_hash(candidate.password, password):
                 print('Logged in')
                 login_user(candidate, remember=True)
+                session["id"] = current_user.get_id()
+                print(session.get("id"))
+                return redirect(url_for('views.home'))
+            else:
+                print('Incorrect password')
+        if employer:
+            if check_password_hash(candidate.password, password):
+                print('Logged in')
+                login_user(candidate, remember=True)
+                session["id"] = current_user.get_id()
                 return redirect(url_for('views.home'))
             else:
                 print('Incorrect password')
         else:
-            print('Email does nor exist')
-    return render_template("login.html", candidate=current_user)
+            print('Email does nor exist')         
+    return render_template("login.html", candidate=current_user, employer=current_user)
+
 
 @auth.route('/logout')
 @login_required
@@ -40,6 +52,7 @@ def sign_up_candidate():
         identity_number = request.form.get('identity_number')
         date_of_birth = request.form.get('date_of_birth')
 
+        
         candidate = Candidates.query.filter_by(email=email).first()
         if candidate:
             print('Email already exist')
@@ -80,6 +93,23 @@ def sign_up_employer():
     return render_template("sign_up.html", employer=current_user)
 
 
+@auth.route('/resumes/add', methods=['GET','POST'])
+@login_required
+def create_resume():
 
+    if request.method=='POST':
+        skills=request.form.get('skills')
+        languages = request.form.get('languages')
+        creation_date = datetime.datetime.now()
+    
+        candidate_id = session.get("id")
+
+        new_resume = Resumes(candidate_id=candidate_id,creation_date=creation_date,skills=skills, languages = languages,)
+        db.session.add(new_resume)
+        db.session.commit()
+
+    return render_template("rsm.html",candidate=current_user)
+      
+    
 
 

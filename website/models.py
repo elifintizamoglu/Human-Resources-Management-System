@@ -125,8 +125,7 @@ class Resumes(db.Model):
                    autoincrement=True, nullable=False)
     candidate_id = db.Column(db.Integer, db.ForeignKey(
         'candidates.id'), nullable=False)
-    creation_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.now)
+    creation_date = db.Column(db.DateTime, nullable=False, default=func.now())
     educations = db.relationship('Educations', backref='resume')
     experiences = db.relationship('Experiences', backref='resume')
     skills = db.Column(db.String(300), nullable=False)

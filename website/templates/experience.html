@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% block title %}Experience Add{% endblock %}
+
+
+{% block content %}
+<form method="POST">
+    <h3 align="center">Add Experience</h3>
+    <div class="form-group">
+      <label for="job_title">Job Titles</label>
+      <input
+        type="text"
+        class="form-control"
+        id="job_title"
+        name="job_title"
+        placeholder="Enter job title"
+      />
+    </div>
+    <div class="form-group">
+      <label for="company_name">Company Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="company_name"
+        name="company_name"
+        placeholder="Enter company name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="starting_date">Starting Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="starting_date"
+        name="starting_date"
+        placeholder="Enter starting date"
+      />
+    </div>
+    <div class="form-group">
+      <label for="termination_date">Termination Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="termination_date"
+        name="termination_date"
+        placeholder="Enter termination date"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+
+  {% endblock %}

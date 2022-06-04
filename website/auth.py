@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from .models import Candidates, Employers
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_session import Session
 
 auth = Blueprint('auth', __name__)
 
@@ -13,18 +14,26 @@ def login():
         password = request.form.get('password')
 
         candidate = Candidates.query.filter_by(email=email).first()
-
+        employer = Employers.query.filter_by(email=email).first()
         if candidate:
             if check_password_hash(candidate.password, password):
                 print('Logged in')
                 login_user(candidate, remember=True)
+                session["id"] = current_user.get_id()
+                return redirect(url_for('views.home'))
+            else:
+                print('Incorrect password')
+        if employer:
+            if check_password_hash(candidate.password, password):
+                print('Logged in')
+                login_user(candidate, remember=True)
+                session["id"] = current_user.get_id()
                 return redirect(url_for('views.home'))
             else:
                 print('Incorrect password')
         else:
-            print('Email does nor exist')
-    return render_template("login.html", candidate=current_user)
-
+            print('Email does nor exist')         
+    return render_template("login.html", candidate=current_user, employer=current_user)
 
 @auth.route('/logout')
 @login_required
@@ -58,11 +67,11 @@ def sign_up_candidate():
 @auth.route('/sign-up/employer', methods=['GET', 'POST'])
 def sign_up_employer():
     if request.method == 'POST': 
-        company_name = request.json['company_name']
-        web_address = request.json['web_address']
-        phone_number = request.json['phone_number']
-        email = request.json['email']
-        password = request.json['password']
+        company_name = request.form.get('company_name')
+        web_address = request.form.get('web_address')
+        phone_number = request.form.get('phone_number')
+        email = request.form.get('email')
+        password = request.form.get('password')
 
         employer = Employers.query.filter_by(email=email).first()
         
@@ -79,3 +88,4 @@ def sign_up_employer():
         return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", employer=current_user)
+

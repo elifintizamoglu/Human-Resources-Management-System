@@ -70,11 +70,11 @@ def sign_up_candidate():
 @auth.route('/sign-up/employer', methods=['GET', 'POST'])
 def sign_up_employer():
     if request.method == 'POST': 
-        company_name = request.json['company_name']
-        web_address = request.json['web_address']
-        phone_number = request.json['phone_number']
-        email = request.json['email']
-        password = request.json['password']
+        company_name = request.form.get('company_name')
+        web_address = request.form.get('web_address')
+        phone_number = request.form.get('phone_number')
+        email = request.form.get('email')
+        password = request.form.get('password')
 
         employer = Employers.query.filter_by(email=email).first()
         
@@ -93,22 +93,7 @@ def sign_up_employer():
     return render_template("sign_up.html", employer=current_user)
 
 
-@auth.route('/resumes/add', methods=['GET','POST'])
-@login_required
-def create_resume():
 
-    if request.method=='POST':
-        skills=request.form.get('skills')
-        languages = request.form.get('languages')
-        creation_date = datetime.datetime.now()
-    
-        candidate_id = session.get("id")
-
-        new_resume = Resumes(candidate_id=candidate_id,creation_date=creation_date,skills=skills, languages = languages,)
-        db.session.add(new_resume)
-        db.session.commit()
-
-    return render_template("rsm.html",candidate=current_user)
       
     
 

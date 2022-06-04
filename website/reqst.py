@@ -1,11 +1,12 @@
 import datetime
 
-from flask_login import current_user
+from flask_login import current_user, login_required
 from .models import *
 #from .models import format_candidates,format_educations,format_employers,format_experiences,format_resumes,format_job_postings
 from flask import Blueprint, request, session, redirect, url_for,render_template
 #from __init__ import reqst
 from . import db
+
 
 reqst = Blueprint('reqst', __name__)
 
@@ -56,19 +57,23 @@ def update_candidate():
     db.session.commit()
     return {'Candidate': format_candidates(candidate.one())}
 
-@reqst.route('/educations/add', methods=['POST'])
+@reqst.route('/educations/add', methods=['GET','POST'])
+@login_required
 def create_education():
-    resume_id = request.json['resume_id']
-    name_of_educational_institution = request.json['name_of_educational_institution']
-    department = request.json['department']
-    degree = request.json['degree']
-    starting_date = request.json['starting_date']
-    graduation_date = request.json['graduation_date']
-    new_education = Educations(resume_id=resume_id, name_of_educational_institution=name_of_educational_institution,
-                                   department=department, degree=degree, starting_date=starting_date, graduation_date=graduation_date)
-    db.session.add(new_education)
-    db.session.commit()
-    return format_educations(new_education)
+    if request.method == 'POST':
+        resume_id = session.get("resume_id")
+        name_of_educational_institution = request.form.get(
+        'name_of_educational_institution')
+        department = request.form.get('department')
+        degree = request.form.get('degree')
+        starting_date = request.form.get('starting_date')
+        graduation_date = request.form.get('graduation_date')
+        new_education = Educations(resume_id=resume_id, name_of_educational_institution=name_of_educational_institution,
+                               department=department, degree=degree, starting_date=starting_date, graduation_date=graduation_date)
+        db.session.add(new_education)
+        db.session.commit()
+    return render_template("education.html", candidate=current_user)
+
 
 @reqst.route('/educations/get', methods=['GET'])
 def get_educations():
@@ -152,18 +157,20 @@ def update_employer():
     db.session.commit()
     return {'Employer': format_employers(employer.one())}
 
-@reqst.route('/experiences/add', methods=['POST'])
+@reqst.route('/experiences/add', methods=['GET', 'POST'])
+@login_required
 def create_experience():
-    resume_id = request.json['resume_id']
-    job_title = request.json['job_title']
-    company_name = request.json['company_name']
-    starting_date = request.json['starting_date']
-    termination_date = request.json['termination_date']
-    new_experience = Experiences(resume_id=resume_id, job_title=job_title,
+    if request.method == 'POST':
+        resume_id = session.get("resume_id")
+        job_title = request.form.get('job_title')
+        company_name = request.form.get('company_name')
+        starting_date = request.form.get('starting_date')
+        termination_date = request.form.get('termination_date')
+        new_experience = Experiences(resume_id=resume_id, job_title=job_title,
                                  company_name=company_name, starting_date=starting_date, termination_date=termination_date)
-    db.session.add(new_experience)
-    db.session.commit()
-    return format_experiences(new_experience)
+        db.session.add(new_experience)
+        db.session.commit()
+    return render_template("experience.html", candidate=current_user)
 
 @reqst.route('/experiences/get', methods=['GET'])
 def get_experiences():
@@ -252,6 +259,22 @@ def update_job_posting():
     db.session.commit()
     return {'Job_posting': format_job_postings(job_posting.one())}
 
+
+@reqst.route('/resumes/add', methods=['GET','POST'])
+@login_required
+def create_resume():
+
+    if request.method=='POST':
+        skills=request.form.get('skills')
+        languages = request.form.get('languages')
+        creation_date = datetime.now()
+        candidate_id = session.get("id")
+        new_resume = Resumes(candidate_id=candidate_id,creation_date=creation_date,skills=skills, languages = languages,)
+        db.session.add(new_resume)
+        db.session.commit()
+        session["resume_id"] = new_resume.id
+
+    return render_template("rsm.html",candidate=current_user)
 
 
 @reqst.route('/resumes/get', methods=['GET'])

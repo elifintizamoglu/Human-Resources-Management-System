@@ -1,39 +1,37 @@
 import React, { useState } from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import Headline from "./../layouts/Headline";
+import Headline from "../layouts/Headline";
 import DateLabel from "./../layouts/DateLabel";
-import MessageModal from "./../layouts/MessageModal";
 import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
+import AuthService from "../services/authService";
 
 export default function CandidateAdd() {
-  const [open, setOpen] = useState(false);
+  const [setOpen] = useState(false);
 
-  let loginService = new LoginService();
+  let authService = new AuthService();
 
   const initialValues = {
     name: "",
     identityNumber: "",
     dateOfBirth: "",
     email: "",
-    password: "",
-    confirmPassword: "",
+    password: ""
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required Field"),
+    name: Yup.string().required("Zorunlu Alan"),
     identityNumber: Yup.string()
-      .length(11, "Not 11 Characters in Length")
-      .required("Required Field"),
-    dateOfBirth: Yup.date().required("Required Field"),
-    email: Yup.string().email("Not a Valid Email").required("Required Field"),
-    password: Yup.string().required("Required Field"),
-    confirmPassword: Yup.string().required("Required Field"),
+      .length(11, "11 karakter gereklidir.")
+      .required("Zorunlu Alan"),
+    dateOfBirth: Yup.date().required("Zorunlu Alan"),
+    email: Yup.string().email("Geçersiz Email").required("Zorunlu Alan"),
+    password: Yup.string().required("Zorunlu Alan")
   });
 
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
-    loginService.loginCandidate(values);
+    authService.loginCandidate(values);
     handleModal(true);
     setTimeout(() => {
       resetForm();
@@ -57,7 +55,7 @@ export default function CandidateAdd() {
   return (
     <div>
       <Container className="content">
-        <Headline content="Candidate Sign up" />
+        <Headline content="Aday Girişi" />
 
         <Grid>
           <Grid.Row>
@@ -69,7 +67,7 @@ export default function CandidateAdd() {
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Input
                     name="name"
-                    label="Name Surname"
+                    label="Ad Soyad"
                     onChange={(event, data) =>
                       handleChange("name", data.value)
                     }
@@ -91,7 +89,7 @@ export default function CandidateAdd() {
                   <Form.Group widths="equal">
                     <Form.Input
                       name="identityNumber"
-                      label="Identity Number"
+                      label="TC Kimlik Numarası"
                       placeholder="XXXXXXXXXXX"
                       onChange={(event, data) =>
                         handleChange("identityNumber", data.value)
@@ -100,8 +98,8 @@ export default function CandidateAdd() {
                     />
                     <Form.Input
                       name="dateOfBirth"
-                      label="Date of Birth"
-                      placeholder="YYYY-MM-DD"
+                      label="Doğum Tarihi"
+                      placeholder="GG-AA-YYYY"
                       onChange={(event, data) =>
                         handleChange("dateOfBirth", data.value)
                       }
@@ -147,7 +145,7 @@ export default function CandidateAdd() {
                   <Form.Input
                     name="email"
                     label="E-mail"
-                    placeholder="example@example.com"
+                    placeholder="ornek@ornek.com"
                     onChange={(event, data) =>
                       handleChange("email", data.value)
                     }
@@ -168,7 +166,7 @@ export default function CandidateAdd() {
                   )}
                   <Form.Input
                     name="password"
-                    label="Password"
+                    label="Şifre"
                     onChange={(event, data) =>
                       handleChange("password", data.value)
                     }
@@ -194,7 +192,7 @@ export default function CandidateAdd() {
                     fluid
                     type="submit"
                     color="yellow"
-                    content="Sign up"
+                    content="Kayıt Ol"
                   />
                 </Form>
               </Formik>
@@ -202,13 +200,6 @@ export default function CandidateAdd() {
             <Grid.Column width="3" />
           </Grid.Row>
         </Grid>
-
-        <MessageModal
-          onClose={() => handleModal(false)}
-          onOpen={() => handleModal(true)}
-          open={open}
-          content="An activation e-mail has been sent !"
-        />
       </Container>
     </div>
   );

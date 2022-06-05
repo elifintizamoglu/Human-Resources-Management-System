@@ -64,7 +64,7 @@ export default function CandidateUpdate() {
   return (
     <div>
       <Container className="content">
-        <Headline content="Update Candidate" />
+        <Headline content="Aday Güncelleme" />
 
         <Grid>
           <Grid.Row>

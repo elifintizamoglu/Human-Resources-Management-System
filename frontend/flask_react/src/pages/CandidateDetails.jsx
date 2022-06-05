@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useParams } from "react-router";
 import Headline from "./../layouts/Headline";
 import ResumeService from "./../services/resumeService";
+import EducationService from "./../services/educationService";
+import ExperienceService from "./../services/experienceService";
 import GithubButton from "./../layouts/GithubButton";
 import LinkedinButton from "./../layouts/LinkedinButton";
 import DateLabel from "./../layouts/DateLabel";
@@ -23,25 +25,27 @@ export default function CandidateDetail() {
   const [resumes, setResumes] = useState([]);
 
   let resumeService = new ResumeService();
+  let educationService = new EducationService();
+  let experienceService = new ExperienceService();
 
   useEffect(() => {
-    resumeService
-      .getAllResumesDetailsByActivatedCandidate()
-      .then((result) => setResumes(result.data.data));
+    resumeService.getAll().then((result) => setResumes(result.data.data));
+    educationService.getAll().then((result) => setResumes(result.data.data));
+    experienceService.getAll().then((result) => setResumes(result.data.data));
   }, []);
 
   return (
     <div>
       <Container className="content">
-        <Headline content="Candidate" />
+        <Headline content="Aday" />
 
         <Grid>
           <Grid.Row>
             <Grid.Column width="3" />
             <Grid.Column width="10">
               {resumes.map((resume) => (
-                <Grid key={resume.id}>
-                  {resume.candidate?.id == id && (
+                <Grid key={candidate.id}>
+                  {resume.candidate_id?.id == id && (
                     <Grid.Row>
                       <Grid.Column>
                         <Button
@@ -51,7 +55,7 @@ export default function CandidateDetail() {
                           color="yellow"
                           icon="pencil alternate"
                           as={NavLink}
-                          to={`/candidates/resume/${resume.id}/edit`}
+                          to={`/candidates/update${candidate.id}`}
                         />
                         <Button
                           circular
@@ -60,31 +64,11 @@ export default function CandidateDetail() {
                           color="yellow"
                           icon="cog"
                           as={NavLink}
-                          to={`/candidates/candidate/${resume.candidate?.id}/update`}
+                          to={`/resumes/update/${resume.candidate_id?.id}`}
                         />
-                        <Button
-                          circular
-                          compact
-                          floated="right"
-                          color="pink"
-                          content="Favorites"
-                          as={NavLink}
-                        />
-                        {resume.image == null ? (
-                          <Image
-                            circular
-                            size="small"
-                          />
-                        ) : (
-                          <Image
-                            circular
-                            size="small"
-                            src={resume.image?.url}
-                          />
-                        )}
                         <Header>
                           <span className="detail-header">
-                            {resume.candidate?.name}
+                            {candidate?.name}
                           </span>
                         </Header>
                         {resume.experiences.length === 0 &&

@@ -7,14 +7,13 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login/candidate', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
 
         candidate = Candidates.query.filter_by(email=email).first()
-        employer = Employers.query.filter_by(email=email).first()
         if candidate:
             if check_password_hash(candidate.password, password):
                 print('Logged in')
@@ -24,18 +23,27 @@ def login():
                 return redirect(url_for('views.home'))
             else:
                 print('Incorrect password')
+         
+    return render_template("login.html", candidate=current_user)
+
+@auth.route('/login/employer', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        employer = Employers.query.filter_by(email=email).first()
         if employer:
-            if check_password_hash(candidate.password, password):
+            if check_password_hash(employer.password, password):
                 print('Logged in')
-                login_user(candidate, remember=True)
+                login_user(employer, remember=True)
                 session["id"] = current_user.get_id()
                 return redirect(url_for('views.home'))
             else:
                 print('Incorrect password')
         else:
             print('Email does nor exist')         
-    return render_template("login.html", candidate=current_user, employer=current_user)
-
+    return render_template("login.html", employer=current_user)
 
 @auth.route('/logout')
 @login_required

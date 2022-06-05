@@ -44,7 +44,7 @@ def delete_candidate(id):
     db.session.commit()
     return f'Candidate (id: {id}) deleted'
 
-@reqst.route('/candidates/update', methods=['PUT'])
+@reqst.route('/candidates/update/<id>', methods=['PUT'])
 def update_candidate():
     candidate = Candidates.query.filter_by(id=id)
     name = request.json['name']
@@ -57,7 +57,7 @@ def update_candidate():
     db.session.commit()
     return {'Candidate': format_candidates(candidate.one())}
 
-@reqst.route('/educations/add', methods=['GET','POST'])
+@reqst.route('/educations/add', methods=['POST'])
 @login_required
 def create_education():
     if request.method == 'POST':
@@ -96,7 +96,7 @@ def delete_education(id):
     db.session.commit()
     return f'Education (id: {id}) deleted'
 
-@reqst.route('/educations/update', methods=['PUT'])
+@reqst.route('/educations/update/<id>', methods=['PUT'])
 def update_education():
     education = Educations.query.filter_by(id=id)
     resume_id = request.json['resume_id']
@@ -144,7 +144,7 @@ def delete_employer(id):
     db.session.commit()
     return f'Employer (id: {id}) deleted'
 
-@reqst.route('/employers/update', methods=['PUT'])
+@reqst.route('/employers/update/<id>', methods=['PUT'])
 def update_employer():
     employer = Employers.query.filter_by(id=id)
     company_name = request.json['company_name']
@@ -157,7 +157,7 @@ def update_employer():
     db.session.commit()
     return {'Employer': format_employers(employer.one())}
 
-@reqst.route('/experiences/add', methods=['GET', 'POST'])
+@reqst.route('/experiences/add', methods=['POST'])
 @login_required
 def create_experience():
     if request.method == 'POST':
@@ -193,7 +193,7 @@ def delete_experience(id):
     db.session.commit()
     return f'Experience (id: {id}) deleted'
 
-@reqst.route('/experiences/update', methods=['PUT'])
+@reqst.route('/experiences/update/<id>', methods=['PUT'])
 def update_experience():
     experience = Experiences.query.filter_by(id=id)
     resume_id = request.json['resume_id']
@@ -243,7 +243,7 @@ def delete_job_posting(id):
     db.session.commit()
     return f'Job_posting (id: {id}) deleted'
 
-@reqst.route('/job_postings/update', methods=['PUT'])
+@reqst.route('/job_postings/update/<id>', methods=['PUT'])
 def update_job_posting():
     job_posting = Job_postings.query.filter_by(id=id)
     company_name = request.json['company_name']
@@ -260,7 +260,7 @@ def update_job_posting():
     return {'Job_posting': format_job_postings(job_posting.one())}
 
 
-@reqst.route('/resumes/add', methods=['GET','POST'])
+@reqst.route('/resumes/add', methods=['POST'])
 @login_required
 def create_resume():
 
@@ -298,7 +298,7 @@ def delete_resume(id):
     db.session.commit()
     return f'Resume (id: {id}) deleted'
 
-@reqst.route('/resumes/update', methods=['PUT'])
+@reqst.route('/resumes/update/<id>', methods=['PUT'])
 def update_resume():
     resume = Resumes.query.filter_by(id=id)
     candidate_id = request.json['candidate_id']

@@ -50,7 +50,7 @@ def delete_candidate(id):
     return f'Candidate (id: {id}) deleted'
 
 
-@reqst.route('/candidates/update', methods=['PUT'])
+@reqst.route('/candidates/update/<id>', methods=['PUT'])
 @login_required
 def update_candidate():
     candidate = Candidates.query.filter_by(id=id)
@@ -107,7 +107,7 @@ def delete_employer(id):
     return f'Employer (id: {id}) deleted'
 
 
-@reqst.route('/employers/update', methods=['PUT'])
+@reqst.route('/employers/update/<id>', methods=['PUT'])
 @login_required
 def update_employer():
     employer = Employers.query.filter_by(id=id)
@@ -167,7 +167,7 @@ def delete_job_posting(id):
     return f'Job_posting (id: {id}) deleted'
 
 
-@reqst.route('/job_postings/update', methods=['PUT'])
+@reqst.route('/job_postings/update/<id>', methods=['PUT'])
 @login_required
 def update_job_posting():
     job_posting = Job_postings.query.filter_by(id=id)
@@ -185,7 +185,7 @@ def update_job_posting():
     return {'Job_posting': format_job_postings(job_posting.one())}
 
 
-@reqst.route('/resumes/add', methods=['GET','POST'])
+@reqst.route('/resumes/add', methods=['POST'])
 @login_required
 def create_resume():
 
@@ -228,7 +228,7 @@ def delete_resume(id):
     return f'Resume (id: {id}) deleted'
 
 
-@reqst.route('/resumes/update', methods=['PUT'])
+@reqst.route('/resumes/update/<id>', methods=['PUT'])
 @login_required
 def update_resume():
     resume = Resumes.query.filter_by(id=id)
@@ -242,7 +242,7 @@ def update_resume():
     return {'Resume': format_resumes(resume.one())}
 
 
-@reqst.route('/experiences/add', methods=['GET', 'POST'])
+@reqst.route('/experiences/add', methods=[ 'POST'])
 @login_required
 def create_experience():
     if request.method == 'POST':
@@ -285,7 +285,7 @@ def delete_experience(id):
     return f'Experience (id: {id}) deleted'
 
 
-@reqst.route('/experiences/update', methods=['PUT'])
+@reqst.route('/experiences/update/<id>', methods=['PUT'])
 @login_required
 def update_experience():
     experience = Experiences.query.filter_by(id=id)
@@ -300,7 +300,7 @@ def update_experience():
     return {'Experience': format_experiences(experience.one())}
 
 
-@reqst.route('/educations/add', methods=['GET','POST'])
+@reqst.route('/educations/add', methods=['POST'])
 @login_required
 def create_education():
     if request.method == 'POST':
@@ -345,7 +345,7 @@ def delete_education(id):
     return f'Education (id: {id}) deleted'
 
 
-@reqst.route('/educations/update', methods=['PUT'])
+@reqst.route('/educations/update/<id>', methods=['PUT'])
 @login_required
 def update_education():
     education = Educations.query.filter_by(id=id)

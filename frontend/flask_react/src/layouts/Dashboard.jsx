@@ -1,11 +1,12 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route} from "react-router-dom";
 import Navi from "./Navi";
 import Footer from "./Footer";
 import HomeLayout from "./HomeLayout";
 import JobPostingLayout from "./JobPostingLayout";
 import CandidateLayout from "./CandidateLayout";
 import EmployerLayout from "./EmployerLayout";
+import { Container } from "semantic-ui-react";
 
 export default function Dashboard() {
   return (

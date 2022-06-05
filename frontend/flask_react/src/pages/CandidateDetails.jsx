@@ -16,7 +16,6 @@ import {
   Icon,
   Button,
 } from "semantic-ui-react";
-import LanguageLevelIcons from "./../layouts/LanguageLevelIcons";
 
 export default function CandidateDetail() {
   let { id } = useParams();

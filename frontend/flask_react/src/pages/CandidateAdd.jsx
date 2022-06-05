@@ -9,7 +9,7 @@ import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
 export default function CandidateAdd() {
   const [open, setOpen] = useState(false);
 
-  let authService = new AuthService();
+  let loginService = new LoginService();
 
   const initialValues = {
     name: "",
@@ -33,7 +33,7 @@ export default function CandidateAdd() {
 
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
-    authService.registerCandidate(values);
+    loginService.loginCandidate(values);
     handleModal(true);
     setTimeout(() => {
       resetForm();
@@ -187,27 +187,6 @@ export default function CandidateAdd() {
                       <br />
                     </span>
                   )}
-                  <Form.Input
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    onChange={(event, data) =>
-                      handleChange("confirmPassword", data.value)
-                    }
-                    value={formik.values.confirmPassword}
-                  />
-                  {formik.errors.confirmPassword &&
-                    formik.touched.confirmPassword && (
-                      <span>
-                        <Label
-                          basic
-                          pointing
-                          color="pink"
-                          className="orbitron"
-                          content={formik.errors.confirmPassword}
-                        />
-                        <br />
-                      </span>
-                    )}
                   <br />
 
                   <Button

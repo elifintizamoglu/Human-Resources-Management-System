@@ -13,7 +13,7 @@ db=SQLAlchemy()
 def create_app():
     app=Flask(__name__)
     app.config['SECRET_KEY']= 'elif is here'  #encrypt or secure the cookies and session data related to our website
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Eyh23894@localhost:5432/HRMS'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Eyh23894@localhost:5432/HRMS_db'
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 

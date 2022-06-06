@@ -7,8 +7,9 @@ import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
 import AuthService from "../services/authService";
 
 export default function CandidateAdd() {
+  
   const [setOpen] = useState(false);
-
+  
   let authService = new AuthService();
 
   const initialValues = {

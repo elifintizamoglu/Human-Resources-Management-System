@@ -41,7 +41,7 @@ export default function LogIn() {
                   color="pink"
                   content="Candidate"
                   as={NavLink}
-                  to={"/login"}
+                  to={"#"}
                   onClick={() => setOpen(false)}
                 ></Button>
               </Grid.Column>
@@ -57,7 +57,7 @@ export default function LogIn() {
                   color="yellow"
                   content="Employer"
                   as={NavLink}
-                  to={"/login"}
+                  to={"#"}
                   onClick={() => setOpen(false)}
                 ></Button>
               </Grid.Column>

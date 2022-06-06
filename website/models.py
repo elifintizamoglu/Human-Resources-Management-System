@@ -49,26 +49,6 @@ class Educations(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-class Employers(db.Model):
-    __tablename__ = 'employers'
-
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    company_name = db.Column(db.String(150), nullable=False)
-    web_address = db.Column(db.String(150), nullable=False)
-    phone_number = db.Column(db.String(), nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
-
-    def __init__(self, company_name, web_address, phone_number, email, password):
-        self.company_name = company_name
-        self.web_address = web_address
-        self.phone_number = phone_number
-        self.email = email
-        self.password = password
-
-    def __repr__(self):
-        return '<id {}>'.format(self.id)
-
 class Experiences(db.Model):
     __tablename__ = 'experiences'
 
@@ -159,16 +139,6 @@ def format_educations(education):
         "degree": education.degree,
         "starting_date": education.starting_date,
         "graduation_date": education.graduation_date
-    }
-
-def format_employers(employer):
-    return{
-        "id": employer.id,
-        "company_name": employer.company_name,
-        "web_address": employer.web_address,
-        "phone_number": employer.phone_number,
-        "email": employer.email,
-        "password": employer.password
     }
 
 def format_experiences(experience):

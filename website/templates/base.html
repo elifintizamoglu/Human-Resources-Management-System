@@ -3,6 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -14,13 +20,10 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="semantic/dist/semantic.min.js"></script>
 
+
+
+    
     <title>{% block title %}Home{% endblock %}</title>
   </head>
 
@@ -40,11 +43,11 @@
           <a class="nav-item nav-link" id="home" href="/">Home</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           <a class="nav-item nav-link" id="rsmAdd" href="/resumes/add">RSM Add</a>
-          <a class="nav-item nav-link" id="rsmAdd" href="/educations/add">EDC Add</a>
-          <a class="nav-item nav-link" id="rsmAdd" href="/experiences/add">EXP Add</a>
+          <a class="nav-item nav-link" id="ExpAdd" href="/experiences/add">Exp Add</a>
+          <a class="nav-item nav-link" id="EduAdd" href="/educations/add">Edu Add</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
-          <a class="nav-item nav-link" id="signUp" href="/sign-up/candidate">Sign Up</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
           {% endif %}
         </div>
       </div>

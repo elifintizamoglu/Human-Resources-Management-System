@@ -29,16 +29,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('identity_number')
     )
-    op.create_table('employers',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('company_name', sa.String(length=150), nullable=False),
-    sa.Column('web_address', sa.String(length=150), nullable=False),
-    sa.Column('phone_number', sa.String(), nullable=False),
-    sa.Column('email', sa.String(length=150), nullable=False),
-    sa.Column('password', sa.String(length=150), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
     op.create_table('job_postings',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('company_name', sa.String(length=150), nullable=False),
@@ -90,6 +80,5 @@ def downgrade():
     op.drop_table('educations')
     op.drop_table('resumes')
     op.drop_table('job_postings')
-    op.drop_table('employers')
     op.drop_table('candidates')
     # ### end Alembic commands ###

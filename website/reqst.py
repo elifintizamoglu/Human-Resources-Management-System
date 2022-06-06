@@ -1,6 +1,6 @@
 from datetime import datetime
-from .models import Candidates,Educations,Employers,Experiences,Job_postings,Resumes
-from .models import format_candidates,format_educations,format_employers,format_experiences,format_resumes,format_job_postings
+from .models import Candidates,Educations,Experiences,Job_postings,Resumes
+from .models import format_candidates,format_educations,format_experiences,format_resumes,format_job_postings
 from flask import Blueprint, render_template, request, session
 from flask_login import login_user, login_required, logout_user, current_user
 from . import db
@@ -63,64 +63,6 @@ def update_candidate():
                           date_of_birth=date_of_birth, email=email, password=password))
     db.session.commit()
     return {'Candidate': format_candidates(candidate.one())}
-
-
-@reqst.route('/employers/add', methods=['POST'])
-@login_required
-def create_employer():
-    company_name = request.form.get('company_name')
-    web_address = request.form.get('web_address')
-    phone_number = request.form.get('phone_number')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    new_employer = Employers(company_name=company_name,
-                             web_address=web_address, phone_number=phone_number, email=email, password=password)
-    db.session.add(new_employer)
-    db.session.commit()
-    return format_employers(new_employer)
-
-
-@reqst.route('/employers/get', methods=['GET'])
-@login_required
-def get_employers():
-    employers = Employers.query.order_by(Employers.id.asc()).all()
-    employer_lists = []
-    for employer in employers:
-        employer_lists.reqstend(format_employers(employers))
-    return {'Employers': employer_lists}
-
-
-@reqst.route('/employers/get/<id>', methods=['GET'])
-@login_required
-def get_employer(id):
-    employer = Employers.query.filter_by(id=id).one()
-    formatted_employers = format_employers(employer)
-    return {'Employer': formatted_employers}
-
-
-@reqst.route('/employers/delete/<id>', methods=['DELETE'])
-@login_required
-def delete_employer(id):
-    employer = Employers.query.filter_by(id=id).one()
-    db.session.delete(employer)
-    db.session.commit()
-    return f'Employer (id: {id}) deleted'
-
-
-@reqst.route('/employers/update/<id>', methods=['PUT'])
-@login_required
-def update_employer():
-    employer = Employers.query.filter_by(id=id)
-    company_name = request.form.get('company_name')
-    web_address = request.form.get('web_address')
-    phone_number = request.form.get('phone_number')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    employer.update(dict(company_name=company_name,
-                         web_address=web_address, phone_number=phone_number, email=email, password=password))
-    db.session.commit()
-    return {'Employer': format_employers(employer.one())}
-
 
 @reqst.route('/job_postings/add', methods=['POST'])
 @login_required
@@ -185,7 +127,7 @@ def update_job_posting():
     return {'Job_posting': format_job_postings(job_posting.one())}
 
 
-@reqst.route('/resumes/add', methods=['POST'])
+@reqst.route('/resumes/add', methods=['GET','POST'])
 @login_required
 def create_resume():
 
@@ -242,7 +184,7 @@ def update_resume():
     return {'Resume': format_resumes(resume.one())}
 
 
-@reqst.route('/experiences/add', methods=[ 'POST'])
+@reqst.route('/experiences/add', methods=['GET', 'POST'])
 @login_required
 def create_experience():
     if request.method == 'POST':
@@ -300,7 +242,7 @@ def update_experience():
     return {'Experience': format_experiences(experience.one())}
 
 
-@reqst.route('/educations/add', methods=['POST'])
+@reqst.route('/educations/add', methods=['GET', 'POST'])
 @login_required
 def create_education():
     if request.method == 'POST':

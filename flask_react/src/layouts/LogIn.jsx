@@ -14,7 +14,7 @@ export default function LogIn() {
       <Button
         circular
         color="pink"
-        content="Log-in"
+        content="Giriş Yap"
         onClick={() => handleModal(true)}
       />
 
@@ -28,7 +28,7 @@ export default function LogIn() {
       >
         <Header icon as="h2" className="orbitron">
           <Icon name="sign-in" />
-          What type of account do you want to log into ?
+             Aday olarak giriş yapmak için pembe butonu, iş ilanı eklemek için sarı butonu seçiniz.
         </Header>
 
         <Modal.Actions>
@@ -39,15 +39,15 @@ export default function LogIn() {
                   circular
                   fluid
                   color="pink"
-                  content="Candidate"
+                  content="Aday Girişi"
                   as={NavLink}
-                  to={"/login"}
+                  to={"#"}
                   onClick={() => setOpen(false)}
                 ></Button>
               </Grid.Column>
               <Grid.Column width="2">
                 <Segment basic className="or">
-                  or
+                  ya da
                 </Segment>
               </Grid.Column>
               <Grid.Column width="7">
@@ -55,9 +55,9 @@ export default function LogIn() {
                   circular
                   fluid
                   color="yellow"
-                  content="Employer"
+                  content="İş İlanı Ekleme"
                   as={NavLink}
-                  to={"/login"}
+                  to={"#"}
                   onClick={() => setOpen(false)}
                 ></Button>
               </Grid.Column>

@@ -50,6 +50,16 @@ def delete_candidate(id):
     return f'Candidate (id: {id}) deleted'
 
 
+@reqst.route('/candidates/get/<id>/all/info', methods=['GET'])
+@login_required
+def get_candidate_all_info():
+    candidate = Candidates.query.filter_by(id=session.get("id")).one()
+    resume = Resumes.query.filter_by(id=session.get("resume_id")).one()
+    experiences = Experiences.query.filter_by(resume_id=session.get("resume_id"))
+    educations = Educations.query.filter_by(resume_id=session.get("resume_id"))
+    return {candidate,resume,experiences,educations}
+
+
 @reqst.route('/candidates/update/<id>', methods=['PUT'])
 @login_required
 def update_candidate():

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router";
 import Headline from "./../layouts/Headline";
-import ResumeService from "./../services/resumeService";
+import CandidateService from "./../services/candidateService";
 import GithubButton from "./../layouts/GithubButton";
 import LinkedinButton from "./../layouts/LinkedinButton";
 import DateLabel from "./../layouts/DateLabel";
@@ -19,29 +19,28 @@ import {
 
 export default function CandidateDetail() {
   let { id } = useParams();
+  const [candidates, setCandidates] = useState([]);
 
-  const [resumes, setResumes] = useState([]);
-
-  let resumeService = new ResumeService();
+  let candidateService = new CandidateService();
 
   useEffect(() => {
-    resumeService
-      .getAllResumesDetailsByActivatedCandidate()
-      .then((result) => setResumes(result.data.data));
+    candidateService
+      .getAllInfo()
+      .then((result) => setCandidates(result.data.data));
   }, []);
 
   return (
     <div>
       <Container className="content">
-        <Headline content="Candidate" />
+        <Headline content="Aday" />
 
         <Grid>
           <Grid.Row>
             <Grid.Column width="3" />
             <Grid.Column width="10">
-              {resumes.map((resume) => (
-                <Grid key={resume.id}>
-                  {resume.candidate?.id == id && (
+              {candidates.map((candidate) => (
+                <Grid key={candidate.id}>
+                  {candidates.candidate?.id == id && (
                     <Grid.Row>
                       <Grid.Column>
                         <Button
@@ -49,82 +48,41 @@ export default function CandidateDetail() {
                           compact
                           floated="right"
                           color="yellow"
-                          icon="pencil alternate"
-                          as={NavLink}
-                          to={`/candidates/resume/${resume.id}/edit`}
-                        />
-                        <Button
-                          circular
-                          compact
-                          floated="right"
-                          color="yellow"
                           icon="cog"
                           as={NavLink}
-                          to={`/candidates/candidate/${resume.candidate?.id}/update`}
+                          to={`/candidates/candidate/${candidate.candidate?.id}/update`}
                         />
-                        <Button
-                          circular
-                          compact
-                          floated="right"
-                          color="pink"
-                          content="Favorites"
-                          as={NavLink}
-                        />
-                        {resume.image == null ? (
-                          <Image
-                            circular
-                            size="small"
-                          />
-                        ) : (
-                          <Image
-                            circular
-                            size="small"
-                            src={resume.image?.url}
-                          />
-                        )}
                         <Header>
                           <span className="detail-header">
-                            {resume.candidate?.name}
+                            {candidate?.name}
                           </span>
                         </Header>
-                        {resume.experiences.length === 0 &&
-                        resume.educations.length === 0 ? null : resume
+                        {candidates.experiences.length === 0 &&
+                        candidates.educations.length === 0 ? null : candidates
                             .experiences.length === 0 ? (
                           <span>
-                            {resume.educations[0].department}
+                            {candidates.educations[0].department}
                             <br />
                           </span>
                         ) : (
                           <span>
-                            {resume.experiences[0].jobTitle?.title}
+                            {candidates.experiences[0].jobTitle?.title}
                             <br />
                           </span>
                         )}
                         <Icon name="envelope" />
-                        {resume.candidate?.email}
+                        {candidate?.email}
                         <br />
-                        {resume.links.length === 0 ? null : (
-                          <span>
-                            <br />
-                            {resume.links.map((link) =>
-                              link.linkName?.id === 1 ? (
-                                <GithubButton url={link.url} />
-                              ) : (
-                                <LinkedinButton url={link.url} />
-                              )
-                            )}
-                          </span>
-                        )}
                         <Divider />
 
-                        {resume.educations.length === 0 &&
-                        resume.experiences.length === 0 &&
-                        resume.skills.length === 0 ? null : (
+                        {candidates.educations.length === 0 &&
+                        candidates.experiences.length === 0 &&
+                        candidates.resume.skills.length === 0 ? null : (
                           <span>
                             <br />
                             <DateLabel
                               value={new Date(
-                                resume.creationDate
+                                candidates.resume.creationDate
                               ).toDateString()}
                             />
                             <br />
@@ -132,15 +90,15 @@ export default function CandidateDetail() {
                           </span>
                         )}
 
-                        {resume.educations.length === 0 ? null : (
+                        {candidates.educations.length === 0 ? null : (
                           <Segment raised>
                             <Header
                               as="h5"
-                              content="Educations"
+                              content="Eğitim Geçmişi"
                               className="orbitron"
                             />
                             <br />
-                            {resume.educations.map((education) => (
+                            {candidates.educations.map((education) => (
                               <span>
                                 <strong>
                                   {education.nameOfEducationalInstitution}
@@ -148,17 +106,25 @@ export default function CandidateDetail() {
                                 <br />
                                 {education.degree} ・ {education.department}
                                 <br />
-                                <span className="extra">
-                                  {new Date(
-                                    education.startingDate
-                                  ).getFullYear()}
-                                  &nbsp;-&nbsp;
-                                  {education.graduationDate === "Devam ediyor."
-                                    ? "Continues"
-                                    : new Date(
-                                        education.graduationDate
+                                {candidates.experiences.map((experience) => (
+                                  <span className="extra">
+                                    {new Date(
+                                      experience.startingDate
+                                    ).getMonth() +
+                                      "." +
+                                      new Date(
+                                        experience.startingDate
                                       ).getFullYear()}
-                                </span>
+                                    &nbsp;-&nbsp;
+                                    {new Date(
+                                      experience.graduationDate
+                                    ).getMonth() +
+                                      "." +
+                                      new Date(
+                                        experience.gradiationDate
+                                      ).getFullYear()}
+                                  </span>
+                                ))}
                                 <br />
                                 <br />
                               </span>
@@ -166,15 +132,15 @@ export default function CandidateDetail() {
                           </Segment>
                         )}
 
-                        {resume.experiences.length === 0 ? null : (
+                        {candidates.experiences.length === 0 ? null : (
                           <Segment raised>
                             <Header
                               as="h5"
-                              content="Experiences"
+                              content="Deneyimleri"
                               className="orbitron"
                             />
                             <br />
-                            {resume.experiences.map((experience) => (
+                            {candidates.experiences.map((experience) => (
                               <span>
                                 <strong>{experience.jobTitle?.title}</strong>
                                 <br />
@@ -185,18 +151,19 @@ export default function CandidateDetail() {
                                   .
                                   {new Date(
                                     experience.startingDate
-                                  ).getFullYear()}
+                                  ).getMonth() +
+                                    "." +
+                                    new Date(
+                                      experience.startingDate
+                                    ).getFullYear()}
                                   &nbsp;-&nbsp;
-                                  {experience.terminationDate ===
-                                  "Devam ediyor."
-                                    ? "Continues"
-                                    : new Date(
-                                        experience.terminationDate
-                                      ).getMonth() +
-                                      "." +
-                                      new Date(
-                                        experience.terminationDate
-                                      ).getFullYear()}
+                                  {new Date(
+                                    experience.terminationDate
+                                  ).getMonth() +
+                                    "." +
+                                    new Date(
+                                      experience.terminationDate
+                                    ).getFullYear()}
                                 </span>
                                 <br />
                                 <br />
@@ -205,16 +172,16 @@ export default function CandidateDetail() {
                           </Segment>
                         )}
 
-                        {resume.skills.length === 0 ? null : (
+                        {candidates.resume.skills.length === 0 ? null : (
                           <Segment raised>
                             <Header
                               as="h5"
-                              content="Skills"
+                              content="Yetenekleri"
                               className="orbitron"
                             />
                             <br />
-                            {resume.skills.map((skill) => (
-                              <span>・ {skill.skill}&nbsp;&nbsp;&nbsp;</span>
+                            {candidates.resume.skills.map((skill) => (
+                              <span>・ {skill}&nbsp;&nbsp;&nbsp;</span>
                             ))}
                             <br />
                             <br />

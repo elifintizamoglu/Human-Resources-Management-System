@@ -11,10 +11,9 @@ export default function Footer() {
       <Grid>
         <Grid.Row centered>
           <List link horizontal>
-            <List.Item as={NavLink} to="/home" content="Home" />
-            <List.Item as={NavLink} to="/jobPostings" content="Job Postings" />
-            <List.Item as={NavLink} to="/candidates" content="Candidates" />
-            <List.Item as={NavLink} to="/employers" content="Employers" />
+            <List.Item as={NavLink} to="/home" content="Ana Sayfa" />
+            <List.Item as={NavLink} to="/jobPostings" content="İş İlanları" />
+            <List.Item as={NavLink} to="/candidates" content="Adaylar" />
           </List>
         </Grid.Row>
         <Grid.Row centered>

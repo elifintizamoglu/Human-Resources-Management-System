@@ -50,7 +50,7 @@ export default function CandidateDetail() {
                           color="yellow"
                           icon="cog"
                           as={NavLink}
-                          to={`/candidates/candidate/${candidate.candidate?.id}/update`}
+                          to={`/candidates/candidate/${candidate.id}/update`}
                         />
                         <Header>
                           <span className="detail-header">
@@ -171,7 +171,6 @@ export default function CandidateDetail() {
                             ))}
                           </Segment>
                         )}
-
                         {candidates.resume.skills.length === 0 ? null : (
                           <Segment raised>
                             <Header
@@ -182,6 +181,21 @@ export default function CandidateDetail() {
                             <br />
                             {candidates.resume.skills.map((skill) => (
                               <span>・ {skill}&nbsp;&nbsp;&nbsp;</span>
+                            ))}
+                            <br />
+                            <br />
+                          </Segment>
+                        )}
+                        {candidates.resume.languages.length === 0 ? null : (
+                          <Segment raised>
+                            <Header
+                              as="h5"
+                              content="Diller"
+                              className="orbitron"
+                            />
+                            <br />
+                            {candidates.resume.languages.map((language) => (
+                              <span>・ {language}&nbsp;&nbsp;&nbsp;</span>
                             ))}
                             <br />
                             <br />

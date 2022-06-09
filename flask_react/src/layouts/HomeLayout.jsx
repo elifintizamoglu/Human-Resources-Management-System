@@ -1,7 +1,6 @@
 import React from "react";
 import HighlightedContent from "./HighlightedContent";
-//import ViewAllJobPostingsByPostingDate from "./ViewAllJobPostingsByPostingDate";
-//import JobPostingList from "./../pages/JobPostingList";
+import JobPostingList from "./../pages/JobPostingList";
 import { Divider, Icon } from "semantic-ui-react";
 
 export default function HomeLayout() {
@@ -15,9 +14,7 @@ export default function HomeLayout() {
       <br />
       <br />
 
-      { /*<JobPostingList type="recently" itemsPerRow="3" /> */}
-
-      { /*<ViewAllJobPostingsByPostingDate /> */}
+      <JobPostingList type="recently" itemsPerRow="3" /> 
     </div>
   );
 }

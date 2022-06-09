@@ -2,7 +2,9 @@ import axios from "axios";
 
 export default class ResumeService {
   add() {
-    return axios.post("http://localhost:5000/resumes/add");
+    return axios
+      .all([axios.get(`http://localhost:5000/resumes/add`)])
+      .then(axios.post(`http://localhost:5000/resumes/add`));
   }
 
   get() {

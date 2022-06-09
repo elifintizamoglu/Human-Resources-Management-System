@@ -11,7 +11,7 @@ import { Container, Grid, Form, Label, Button } from "semantic-ui-react";
 export default function EducationAdd() {
   let { id } = useParams();
 
-  const [open, setOpen] = useState(false);
+  const [setOpen] = useState(false);
 
   let educationService = new EducationService();
   let resumeService = new ResumeService();

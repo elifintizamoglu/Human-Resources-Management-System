@@ -5,9 +5,10 @@ from flask_migrate import Migrate
 from os import path
 from flask_login import LoginManager
 from flask_session import Session
+from flask_cors import CORS
 
 db = SQLAlchemy()
-
+cors = CORS()
 def create_app():
     app = Flask(__name__)
     # encrypt or secure the cookies and session data related to our website
@@ -18,6 +19,7 @@ def create_app():
     app.config["SESSION_TYPE"] = "filesystem"
     db.init_app(app)
     migrate = Migrate(app, db)
+    cors.init_app(app)
     Session(app)
     
     from .views import views

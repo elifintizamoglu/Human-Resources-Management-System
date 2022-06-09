@@ -2,7 +2,9 @@ import axios from "axios";
 
 export default class JobPostingService {
   add() {
-    return axios.post("http://localhost:5000/jobPostings/add");
+    return axios
+      .all([axios.get(`http://localhost:5000/jobPostings/add`)])
+      .then(axios.post(`http://localhost:5000/jobPostings/add`));
   }
 
   get() {

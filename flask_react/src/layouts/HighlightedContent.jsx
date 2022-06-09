@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Grid,
-  Divider,
-  Segment,
-  Header,
-  Input,
-} from "semantic-ui-react";
+import { Grid, Divider, Segment, Header, Input } from "semantic-ui-react";
 
 export default function HighlightedContent() {
   return (
@@ -18,11 +12,7 @@ export default function HighlightedContent() {
           <Divider hidden />
           <Segment basic>
             <Header color="violet" textAlign="right">
-              <span className="headline-1">Find a new</span>
-            </Header>
-            <br />
-            <Header color="pink" textAlign="right">
-              <span className="headline-2">Job</span>
+              <span className="headline-1">Yeni bir işiniz olsun!</span>
             </Header>
           </Segment>
           <Segment raised circular>

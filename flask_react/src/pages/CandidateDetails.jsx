@@ -3,14 +3,11 @@ import { NavLink } from "react-router-dom";
 import { useParams } from "react-router";
 import Headline from "./../layouts/Headline";
 import CandidateService from "./../services/candidateService";
-import GithubButton from "./../layouts/GithubButton";
-import LinkedinButton from "./../layouts/LinkedinButton";
 import DateLabel from "./../layouts/DateLabel";
 import {
   Container,
   Grid,
   Header,
-  Image,
   Segment,
   Divider,
   Icon,
@@ -40,7 +37,7 @@ export default function CandidateDetail() {
             <Grid.Column width="10">
               {candidates.map((candidate) => (
                 <Grid key={candidate.id}>
-                  {candidates.candidate?.id == id && (
+                  {candidates.candidate.id === id && (
                     <Grid.Row>
                       <Grid.Column>
                         <Button
@@ -54,7 +51,7 @@ export default function CandidateDetail() {
                         />
                         <Header>
                           <span className="detail-header">
-                            {candidate?.name}
+                            {candidate.name}
                           </span>
                         </Header>
                         {candidates.experiences.length === 0 &&
@@ -66,12 +63,12 @@ export default function CandidateDetail() {
                           </span>
                         ) : (
                           <span>
-                            {candidates.experiences[0].jobTitle?.title}
+                            {candidates.experiences[0].job_title}
                             <br />
                           </span>
                         )}
                         <Icon name="envelope" />
-                        {candidate?.email}
+                        {candidate.email}
                         <br />
                         <Divider />
 
@@ -142,7 +139,7 @@ export default function CandidateDetail() {
                             <br />
                             {candidates.experiences.map((experience) => (
                               <span>
-                                <strong>{experience.jobTitle?.title}</strong>
+                                <strong>{experience.job_title}</strong>
                                 <br />
                                 {experience.companyName}
                                 <br />

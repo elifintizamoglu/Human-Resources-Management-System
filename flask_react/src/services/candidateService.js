@@ -17,10 +17,6 @@ export default class CandidateService {
     return axios.get(`http://localhost:5000//candidates/get/<id>/all/info`);
   }
 
-  getById(id) {
-    return axios.get(`http://localhost:5000/candidates/getById?id=${id}`);
-  }
-
   delete(id) {
     return axios.delete(`http://localhost:5000/candidates/delete?id=${id}`);
   }

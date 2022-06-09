@@ -2,7 +2,9 @@ import axios from "axios";
 
 export default class ExperienceService {
   add() {
-    return axios.post("http://localhost:5000/experiences/add");
+    return axios
+      .all([axios.get(`http://localhost:5000/experiences/add`)])
+      .then(axios.post(`http://localhost:5000/experiences/add`));
   }
 
   get() {

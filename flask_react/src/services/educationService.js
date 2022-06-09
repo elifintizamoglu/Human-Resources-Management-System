@@ -2,7 +2,9 @@ import axios from "axios";
 
 export default class EducationService {
   add() {
-    return axios.post("http://localhost:5000/educations/add");
+    return axios
+      .all([axios.get(`http://localhost:5000/educations/add`)])
+      .then(axios.post(`http://localhost:5000/educations/add`));
   }
 
   get() {

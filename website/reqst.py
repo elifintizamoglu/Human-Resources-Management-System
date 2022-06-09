@@ -24,17 +24,14 @@ def crate_candidate():
 
 
 @reqst.route('/candidates/get', methods=['GET'])
-@login_required
 def get_candidates():
     candidates = Candidates.query.order_by(Candidates.id.asc()).all()
     candidate_lists = []
     for candidate in candidates:
-        candidate_lists.reqstend(format_candidates(candidate))
+        candidate_lists.append(format_candidates(candidate))
     return {'Candidates': candidate_lists}
 
-
 @reqst.route('/candidates/get/<id>', methods=['GET'])
-@login_required
 def get_candidate(id):
     candidate = Candidates.query.filter_by(id=id).one()
     formatted_candidate = format_candidates(candidate)
@@ -50,8 +47,7 @@ def delete_candidate(id):
     return f'Candidate (id: {id}) deleted'
 
 
-@reqst.route('/candidates/get/<id>/all/info', methods=['GET'])
-@login_required
+@reqst.route('/candidates/getallinfo', methods=['GET'])
 def get_candidate_all_info():
     candidate = Candidates.query.filter_by(id=session.get("id")).one()
     resume = Resumes.query.filter_by(id=session.get("resume_id")).one()
@@ -93,7 +89,6 @@ def create_job_posting():
 
 
 @reqst.route('/job_postings/get', methods=['GET'])
-@login_required
 def get_job_postings():
     job_postings = Job_postings.query.order_by(Job_postings.id.asc()).all()
     job_posting_lists = []
@@ -103,7 +98,6 @@ def get_job_postings():
 
 
 @reqst.route('/job_postings/get/<id>', methods=['GET'])
-@login_required
 def get_job_posting(id):
     job_posting = Job_postings.query.filter_by(id=id).one()
     formatted_job_posting = format_job_postings(job_posting)
@@ -154,12 +148,11 @@ def create_resume():
     return render_template("rsm.html",candidate=current_user)
 
 @reqst.route('/resumes/get', methods=['GET'])
-@login_required
 def get_resumes():
     resumes = Resumes.query.order_by(Resumes.id.asc()).all()
     resume_lists = []
     for resume in resumes:
-        resume_lists.reqstend(format_resumes(resume))
+        resume_lists.append(format_resumes(resume))
     return {'Resumes': resume_lists}
 
 
@@ -211,12 +204,11 @@ def create_experience():
 
 
 @reqst.route('/experiences/get', methods=['GET'])
-@login_required
 def get_experiences():
     experiences = Experiences.query.order_by(Experiences.id.asc()).all()
     experience_lists = []
     for experience in experiences:
-        experience_lists.reqstend(format_experiences(experience))
+        experience_lists.append(format_experiences(experience))
     return {'Experiences': experience_lists}
 
 
@@ -271,12 +263,11 @@ def create_education():
 
 
 @reqst.route('/educations/get', methods=['GET'])
-@login_required
 def get_educations():
     educations = Educations.query.order_by(Educations.id.asc()).all()
     education_lists = []
     for education in educations:
-        education_lists.reqstend(format_educations(education))
+        education_lists.append(format_educations(education))
     return {'Educations': education_lists}
 
 

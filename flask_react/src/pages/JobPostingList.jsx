@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import JobPostingService from "./../services/jobPostingService";
 import ButtonsOfPagination from "../layouts/ButtonsOfPagination";
-import { Card, Label, Button, Icon, Grid, Form } from "semantic-ui-react";
+import { Card, Button, Icon, Grid, Form } from "semantic-ui-react";
 
 export default function JobPostingList({ type, itemsPerRow, id }) {
   const [jobPostings, setJobPostings] = useState([]);
@@ -22,13 +22,13 @@ export default function JobPostingList({ type, itemsPerRow, id }) {
   }, [pageNo, pageSize, numberOfData]);
 
   const handlePreviousPage = () => {
-    if (pageNo != 1) {
+    if (pageNo !== 1) {
       setPageNo(pageNo - 1);
     }
   };
 
   const handleNextPage = () => {
-    if (pageNo != totalNumberOfPages) {
+    if (pageNo !== totalNumberOfPages) {
       setPageNo(pageNo + 1);
     }
   };
@@ -79,7 +79,7 @@ export default function JobPostingList({ type, itemsPerRow, id }) {
               <Card raised key={jobPosting.id}>
                 <Card.Content>
                   <Card.Header className="montserrat">
-                    {jobPosting.jobTitle?.title}
+                    {jobPosting.job_title}
                   </Card.Header>
                   <Card.Meta>
                     {jobPosting.companyName}

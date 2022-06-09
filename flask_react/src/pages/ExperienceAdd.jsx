@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
@@ -11,8 +11,7 @@ import { Container, Grid, Form, Label, Button } from "semantic-ui-react";
 export default function ExperienceAdd() {
   let { id } = useParams();
 
-  const [jobTitles, setJobTitles] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [setOpen] = useState(false);
 
   let experienceService = new ExperienceService();
   let resumeService = new ResumeService();

@@ -19,16 +19,28 @@ function App() {
     <div className="App">
       <Navi />
       <Routes>
-        <Route exact path="/" component={HomeLayout} />
-        <Route exact path="/home" component={HomeLayout} />
-        <Route exact path="/candidate/add" component={CandidateAdd} />
-        <Route exact path="/candidates" component={CandidateLayout} />
-        <Route exact path="/candidates/candidate/:id" component={CandidateDetail}/>
-        <Route exact path="/candidates/candidate/:id/update" component={CandidateUpdate}/>
-        <Route exact path="/jobPostings" component={JobPostingLayout} />
-        <Route exact path="/jobPostings/jobPosting/:id" component={JobPostingDetail} />
-         <Route exact path="/candidates/education/add" component={EducationAdd} />
-      <Route exact path="/candidates/experience/add" component={ExperienceAdd} />
+        <Route exact path="/" element={<HomeLayout/>} />
+        <Route exact path="/home" element={<HomeLayout/>} />
+        <Route exact path="/candidate/add" element={<CandidateAdd/>} />
+        <Route exact path="/candidates" element={<CandidateLayout/>} />
+        <Route
+          exact
+          path="/candidates/candidate/:id"
+          element={<CandidateDetail/>}
+        />
+        <Route
+          exact
+          path="/candidates/candidate/:id/update"
+          element={<CandidateUpdate/>}
+        />
+        <Route exact path="/jobPostings" element={<JobPostingLayout/>} />
+        <Route
+          exact
+          path="/jobPostings/jobPosting/:id"
+          element={<JobPostingDetail/>}
+        />
+        <Route exact path="/education/add" element={<EducationAdd/>} />
+        <Route exact path="/experience/add" element={<ExperienceAdd/>} />
       </Routes>
       <Footer />
     </div>

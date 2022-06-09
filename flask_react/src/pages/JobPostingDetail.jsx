@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router";
+import { useParams } from "react-router";
 import JobPostingService from "./../services/jobPostingService";
 import Headline from "../layouts/Headline";
 import DateLabel from "./../layouts/DateLabel";
@@ -10,16 +10,12 @@ import {
   Divider,
   Icon,
   Label,
-  Button,
 } from "semantic-ui-react";
 
 export default function JobPostingDetail() {
   let { id } = useParams();
 
   const [jobPosting, setJobPosting] = useState({});
-  const [open, setOpen] = useState(false);
-
-  const history = useHistory();
 
   let jobPostingService = new JobPostingService();
 
@@ -29,10 +25,7 @@ export default function JobPostingDetail() {
       .then((result) => setJobPosting(result.data.data));
   }, []);
 
-  const handleModal = (value) => {
-    setOpen(value);
-  };
-
+  return (
     <div>
       <Container className="content">
         <Headline content="İş İlanı" />
@@ -48,21 +41,12 @@ export default function JobPostingDetail() {
                 <br />
                 <br />
                 <br />
-                <Button
-                  compact
-                  circular
-                  color="violet"
-                  content="Make Passive"
-                  floated="right"
-                  onClick={() =>
-                    handleMakeActiveOrPassive(jobPosting.id, false)
-                  }
-                />
+          
               </Grid.Row>
               <Grid.Row>
                 <Header>
                   <span className="detail-header">
-                    <strong>{jobPosting.jobTitle?.title}</strong>
+                    <strong>{jobPosting.job_title}</strong>
                   </span>
                 </Header>
                 {jobPosting.companyName}
@@ -112,4 +96,5 @@ export default function JobPostingDetail() {
         </Grid>
       </Container>
     </div>
+  );
 }

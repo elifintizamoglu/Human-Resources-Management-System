@@ -167,8 +167,8 @@ def format_job_postings(job_posting):
 def format_resumes(resume):
     return{
         "id": resume.id,
-        "candidate_id": resume.resume_id,
-        "creation_date": resume.creatiob_date,
+        "candidate_id": resume.candidate_id,
+        "creation_date": resume.creation_date,
         "skills": resume.skills,
         "languages": resume.languages
     }

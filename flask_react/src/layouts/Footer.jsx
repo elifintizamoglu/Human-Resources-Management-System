@@ -7,7 +7,6 @@ export default function Footer() {
     <Container className="footer">
       <Divider />
       <br />
-
       <Grid>
         <Grid.Row centered>
           <List link horizontal>
@@ -16,37 +15,24 @@ export default function Footer() {
             <List.Item as={NavLink} to="/candidates" content="Adaylar" />
           </List>
         </Grid.Row>
-        <Grid.Row centered>
-          Necibe Büşra Uylaş
-        </Grid.Row>
+        <Grid.Row centered> Necibe Büşra Uylaş </Grid.Row>
         <Grid.Row centered>
           <List link horizontal>
-            <List.Item
-              href="https://github.com/NecibeBusraUylas"
-              target="blank"
-            >
+            <List.Item href="https://github.com/NecibeBusraUylas" target="blank" >
               <Icon name="github" size="large" />
             </List.Item>
-            <List.Item
-              href="https://www.linkedin.com/in/necibebusrauylas/"
-              target="blank"
-            >
+            <List.Item href="https://www.linkedin.com/in/necibebusrauylas/" target="blank" >
               <Icon name="linkedin" size="large" />
             </List.Item>
           </List>
         </Grid.Row>
-        <Grid.Row centered>
-          Elif İntizamoğlu
-        </Grid.Row>
+        <Grid.Row centered> Elif İntizamoğlu </Grid.Row>
         <Grid.Row centered>
           <List link horizontal>
             <List.Item href="https://github.com/elifintizamoglu" target="blank">
               <Icon name="github" size="large" />
             </List.Item>
-            <List.Item
-              href="http://www.linkedin.com/in/elif-intizamoglu"
-              target="blank"
-            >
+            <List.Item href="http://www.linkedin.com/in/elif-intizamoglu" target="blank" >
               <Icon name="linkedin" size="large" />
             </List.Item>
           </List>
@@ -58,3 +44,4 @@ export default function Footer() {
     </Container>
   );
 }
+

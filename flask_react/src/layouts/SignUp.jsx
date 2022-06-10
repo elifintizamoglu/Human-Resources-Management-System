@@ -11,38 +11,18 @@ export default function SignUp() {
 
   return (
     <span>
-      <Button
-        circular
-        color="yellow"
-        content="Kayıt Ol"
-        onClick={() => handleModal(true)}
-      />
-
-      <Modal
-        basic
-        dimmer
-        onClose={() => handleModal(false)}
-        onOpen={() => handleModal(true)}
-        open={open}
-        size="small"
-      >
+      <Button circular color="yellow" content="Kayıt Ol" onClick={() => handleModal(true)} />
+      <Modal basic dimmer onClose={() => handleModal(false)} onOpen={() => handleModal(true)} open={open} size="small">
         <Header icon as="h2" className="orbitron">
-          <Icon name="paper plane" />
-              Yeni Hesap Oluşturma
+          <Icon name="paper plane" /> Yeni Hesap Oluşturma
         </Header>
-
         <Modal.Actions>
-                <Button
-                  circular
-                  fluid
-                  color="pink"
-                  content="Aday"
-                  as={NavLink}
-                  to={"/sign-up"}
-                  onClick={() => setOpen(false)}
-                />      
+                <Button circular  fluid color="pink" content="Aday"  as={NavLink} to={"/sign-up"} onClick={() => setOpen(false)}/>      
         </Modal.Actions>
       </Modal>
     </span>
   );
 }
+
+
+

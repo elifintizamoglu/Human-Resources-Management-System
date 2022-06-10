@@ -3,59 +3,59 @@
 
 {% block content %}
 <form method="POST">
-    <h3 align="center">Add Education</h3>
+    <h3 align="center">Eğitim Bilgileri Ekleme</h3>
     <div class="form-group">
-      <label for="name_of_educational_institution">Name Of Educational Institution</label>
+      <label for="name_of_educational_institution">Okulun Adı</label>
       <input
         type="text"
         class="form-control"
         id="name_of_educational_institution"
         name="name_of_educational_institution"
-        placeholder="Enter name of educational institution"
+        placeholder="Okul adı giriniz."
       />
     </div>
     <div class="form-group">
-      <label for="department">Department</label>
+      <label for="department">Bölüm</label>
       <input
         type="text"
         class="form-control"
         id="department"
         name="department"
-        placeholder="Enter department"
+        placeholder="Bölüm adı giriniz."
       />
     </div>
     <div class="form-group">
-      <label for="degree">Degree</label>
+      <label for="degree">Derece</label>
       <input
         type="text"
         class="form-control"
         id="degree"
         name="degree"
-        placeholder="Enter degree"
+        placeholder="Derece giriniz."
       />
     </div>
     <div class="form-group">
-        <label for="starting_date">Starting Date</label>
+        <label for="starting_date">Başlama Tarihi</label>
         <input
           type="date"
           class="form-control"
           id="starting_date"
           name="starting_date"
-          placeholder="Enter starting date"
+          placeholder="Başlama tarihi giriniz."
         />
       </div>
       <div class="form-group">
-        <label for="graduation_date">Graduation Date</label>
+        <label for="graduation_date">Mezuniyet Tarihi</label>
         <input
           type="date"
           class="form-control"
           id="graduation_date"
           name="graduation_date"
-          placeholder="Enter graduation date"
+          placeholder="Mezuniyet tarihi giriniz."
         />
       </div>
     <br />
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary">Ekle</button>
   </form>
 
   {% endblock %}

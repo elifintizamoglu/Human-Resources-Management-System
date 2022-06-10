@@ -1,0 +1,81 @@
+{% extends "base.html" %}{% block title %}Job Posting Add{% endblock %}
+
+
+{% block content %}
+<form method="POST">
+    <h3 align="center">İş İlanı Ekleme </h3>
+    <div class="form-group">
+      <label for="company_name">Şirket Adı</label>
+      <input
+        type="text"
+        class="form-control"
+        id="company_name"
+        name="company_name"
+        placeholder="Şirket adı giriniz."
+      />
+    </div>
+    <div class="form-group">
+        <label for="job_title">İş Başlığı</label>
+        <input
+          type="text"
+          class="form-control"
+          id="job_title"
+          name="job_title"
+          placeholder="İş başlığını giriniz."
+        />
+    </div>
+    <div class="form-group">
+      <label for="job_description">İş Açıklaması</label>
+      <input
+        type="text"
+        class="form-control"
+        id="job_description"
+        name="job_description"
+        placeholder="İşin açıklamasını giriniz."
+      />
+    </div>
+    <div class="form-group">
+      <label for="salary_min">Minimum Maaş</label>
+      <input
+        type="number"
+        class="form-control"
+        id="salary_min"
+        name="salary_min"
+        placeholder="Minimum maaş değeri giriniz."
+      />
+    </div>
+    <div class="form-group">
+      <label for="salary_max">Maksimum Maaş</label>
+      <input
+        type="number"
+        class="form-control"
+        id="salary_max"
+        name="salary_max"
+        placeholder="Maksimum maaş değeri giriniz."
+      />
+    </div>
+    <div class="form-group">
+        <label for="posting_date">Açılış Tarihi</label>
+        <input
+          type="date"
+          class="form-control"
+          id="posting_date"
+          name="posting_date"
+          placeholder="İlanın açılış tarihini giriniz."
+        />
+    </div>
+    <div class="form-group">
+        <label for="closing_date">Kapanış Tarihi</label>
+        <input
+          type="date"
+          class="form-control"
+          id="closing_date"
+          name="closing_date"
+          placeholder="İlanın kapanış tarihini giriniz."
+        />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Ekle</button>
+  </form>
+
+  {% endblock %}

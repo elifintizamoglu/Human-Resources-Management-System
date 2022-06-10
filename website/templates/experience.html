@@ -3,49 +3,49 @@
 
 {% block content %}
 <form method="POST">
-    <h3 align="center">Add Experience</h3>
+    <h3 align="center">Deneyim Ekleme</h3>
     <div class="form-group">
-      <label for="job_title">Job Titles</label>
+      <label for="job_title">İş Başlığı</label>
       <input
         type="text"
         class="form-control"
         id="job_title"
         name="job_title"
-        placeholder="Enter job title"
+        placeholder="İş başlığı giriniz."
       />
     </div>
     <div class="form-group">
-      <label for="company_name">Company Name</label>
+      <label for="company_name">Şirket Adı</label>
       <input
         type="text"
         class="form-control"
         id="company_name"
         name="company_name"
-        placeholder="Enter company name"
+        placeholder="Şirket adı giriniz."
       />
     </div>
     <div class="form-group">
-      <label for="starting_date">Starting Date</label>
+      <label for="starting_date">Başlama Tarihi</label>
       <input
         type="date"
         class="form-control"
         id="starting_date"
         name="starting_date"
-        placeholder="Enter starting date"
+        placeholder="Başlama tarihi giriniz."
       />
     </div>
     <div class="form-group">
-      <label for="termination_date">Termination Date</label>
+      <label for="termination_date">Ayrılma Tarihi</label>
       <input
         type="date"
         class="form-control"
         id="termination_date"
         name="termination_date"
-        placeholder="Enter termination date"
+        placeholder="Ayrılma tarihi giriniz."
       />
     </div>
     <br />
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary">Ekle</button>
   </form>
 
   {% endblock %}

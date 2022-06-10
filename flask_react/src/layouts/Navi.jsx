@@ -9,13 +9,7 @@ export default function Navi() {
     <Menu borderless fixed="top">
       <Container>
         <Menu.Item color="violet" position="left">
-          <Header
-            as="h4"
-            color="violet"
-            className="orbitron"
-            icon="cube"
-            content="İnsan Kaynakları Yönetim Sistemi"
-          />
+          <Header as="h4" color="violet" className="orbitron" icon="cube" content="İnsan Kaynakları Yönetim Sistemi"/>
         </Menu.Item>
         <Menu.Item
           as={NavLink}
@@ -23,18 +17,8 @@ export default function Navi() {
           icon="circle notched"
           content="Ana Sayfa"
         />
-        <Menu.Item
-          as={NavLink}
-          to="/jobPostings"
-          icon="list alternate outline"
-          content="İş İlanları"
-        />
-        <Menu.Item
-          as={NavLink}
-          to="/candidates"
-          icon="user outline"
-          content="Adaylar"
-        />
+        <Menu.Item as={NavLink} to="/jobPostings" icon="list alternate outline" content="İş İlanları" />
+        <Menu.Item as={NavLink} to="/candidates" icon="user outline" content="Adaylar"/>
         <Menu.Menu position="right">
           <Menu.Item position="right">
             <LogIn />
@@ -47,3 +31,4 @@ export default function Navi() {
     </Menu>
   );
 }
+

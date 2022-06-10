@@ -83,7 +83,7 @@ class Job_postings(db.Model):
     salary_max = db.Column(db.String(50))
     posting_date = db.Column(db.DateTime, nullable=False)
     closing_date = db.Column(db.DateTime)
-    isActive = db.Column(db.Boolean, nullable=False, default=1)
+    isActive = db.Column(db.Boolean, nullable=True, default=1)
 
     def __init__(self,  company_name, job_title, job_description, salary_min, salary_max, posting_date, closing_date, isActive):
         self.company_name = company_name

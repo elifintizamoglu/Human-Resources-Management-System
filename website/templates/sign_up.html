@@ -1,61 +1,60 @@
 {% extends "base.html" %}{% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<h1>This is the sign up page</h1>
 
 <form method="POST">
-    <h3 align="center">Sign Up</h3>
+    <h3 align="center">Kayıt Ol</h3>
     <div class="form-group">
-      <label for="email">Email Address</label>
+      <label for="email">Email Adresi</label>
       <input
         type="email"
         class="form-control"
         id="email"
         name="email"
-        placeholder="Enter email"
+        placeholder="Email adresi giriniz."
       />
     </div>
     <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">Ad Soyad</label>
         <input
           type="text"
           class="form-control"
           id="name"
           name="name"
-          placeholder="Enter name"
+          placeholder="Ad soyad giriniz."
         />
     </div>
     <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">Şifre</label>
         <input
           type="password"
           class="form-control"
           id="password"
           name="password"
-          placeholder="Enter password"
+          placeholder="Şifre giriniz."
         />
     </div>
     <div class="form-group">
-      <label for="identity_number">Identity Number</label>
+      <label for="identity_number">TC Kimlik No</label>
       <input
         type="text"
         class="form-control"
         id="identity_number"
         name="identity_number"
-        placeholder="Enter Identity Number"
+        placeholder="TC kimlik no giriniz."
         />
       </div>
       <div class="form-group">
-        <label for="date_of_birth">Date Of Birth</label>
+        <label for="date_of_birth">Doğum Tarihi</label>
         <input
           type="date_of_birth"
           class="form-control"
           id="date_of_birth"
           name="date_of_birth"
-          placeholder="Enter Date Of Birth"
+          placeholder="Doğum tarihi giriniz."
           />
         </div>
     <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
 </form>
 {% endblock %}

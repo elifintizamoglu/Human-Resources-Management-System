@@ -15,61 +15,20 @@ import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
 export default function JobPostingAdd() {
   let { id } = useParams();
 
-  const [jobTitles, setJobTitles] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [workingTimes, setWorkingTimes] = useState([]);
-  const [workingTypes, setWorkingTypes] = useState([]);
+  const [jobPostings, setJobPostings] = useState([]);
   const [open, setOpen] = useState(false);
 
   let jobPostingService = new JobPostingService();
-  let jobTitleService = new JobTitleService();
-  let cityService = new CityService();
-  let workingTimeService = new WorkingTimeService();
-  let workingTypeService = new WorkingTypeService();
 
   useEffect(() => {
-    jobTitleService.getAll().then((result) => setJobTitles(result.data.data));
-    cityService.getAll().then((result) => setCities(result.data.data));
-    workingTimeService
+    jobPostingService
       .getAll()
-      .then((result) => setWorkingTimes(result.data.data));
-    workingTypeService
-      .getAll()
-      .then((result) => setWorkingTypes(result.data.data));
+      .then((result) => setJobPostibg(result.data.data));
   }, []);
-
-  const jobTitleOptions = jobTitles.map((jobTitle) => ({
-    key: jobTitle.id,
-    text: jobTitle.title,
-    value: jobTitle,
-  }));
-
-  const cityOptions = cities.map((city) => ({
-    key: city.id,
-    text: city.city,
-    value: city,
-  }));
-
-  const workingTimeOptions = workingTimes.map((workingTime) => ({
-    key: workingTime.id,
-    text: workingTime.time,
-    value: workingTime,
-  }));
-
-  const workingTypeOptions = workingTypes.map((workingType) => ({
-    key: workingType.id,
-    text: workingType.type,
-    value: workingType,
-  }));
 
   const initialValues = {
     employer: { id: id },
     jobTitle: "",
-    city: "",
-    workingTime: "",
-    workingType: "",
-    jobDescription: "",
-    numberOfOpenPositions: "",
     salaryMin: "",
     salaryMax: "",
     closingDate: "",
@@ -77,13 +36,8 @@ export default function JobPostingAdd() {
 
   const validationSchema = Yup.object({
     jobTitle: Yup.object().required("Zorunlu Alan"),
-    city: Yup.object().required("Zorunlu Alan"),
-    workingTime: Yup.object().required("Zorunlu Alan"),
-    workingType: Yup.object().required("Zorunlu Alan"),
     jobDescription: Yup.string()
       .max(2300, "150 karakterden fazla olamaz.")
-      .required("Zorunlu Alan"),
-    numberOfOpenPositions: Yup.number()
       .required("Zorunlu Alan"),
     salaryMin: Yup.string(),
     salaryMax: Yup.string(),
@@ -288,13 +242,6 @@ export default function JobPostingAdd() {
             <Grid.Column width="3" />
           </Grid.Row>
         </Grid>
-
-        <MessageModal
-          onClose={() => handleModal(false)}
-          onOpen={() => handleModal(true)}
-          open={open}
-          content="Waiting for posting confirmation !"
-        />
       </Container>
     </div>
   );

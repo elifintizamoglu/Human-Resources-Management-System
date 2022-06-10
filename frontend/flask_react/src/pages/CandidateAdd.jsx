@@ -7,9 +7,8 @@ import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
 import AuthService from "../services/authService";
 
 export default function CandidateAdd() {
-  
   const [setOpen] = useState(false);
-  
+
   let authService = new AuthService();
 
   const initialValues = {
@@ -17,7 +16,7 @@ export default function CandidateAdd() {
     identityNumber: "",
     dateOfBirth: "",
     email: "",
-    password: ""
+    password: "",
   };
 
   const validationSchema = Yup.object({
@@ -26,8 +25,10 @@ export default function CandidateAdd() {
       .length(11, "11 karakter gereklidir.")
       .required("Zorunlu Alan"),
     dateOfBirth: Yup.date().required("Zorunlu Alan"),
-    email: Yup.string().email("Geçersiz Email").required("Zorunlu Alan"),
-    password: Yup.string().required("Zorunlu Alan")
+    email: Yup.string()
+      .email("Geçersiz Email")
+      .required("Zorunlu Alan"),
+    password: Yup.string().required("Zorunlu Alan"),
   });
 
   const onSubmit = (values, { resetForm }) => {
@@ -69,9 +70,7 @@ export default function CandidateAdd() {
                   <Form.Input
                     name="name"
                     label="Ad Soyad"
-                    onChange={(event, data) =>
-                      handleChange("name", data.value)
-                    }
+                    onChange={(event, data) => handleChange("name", data.value)}
                     value={formik.values.name}
                   />
                   {formik.errors.name && formik.touched.name && (

@@ -2,7 +2,6 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from datetime import datetime
-#from flask import Blueprint
 
 class Candidates(db.Model, UserMixin):
     __tablename__ = 'candidates'
@@ -86,7 +85,7 @@ class Job_postings(db.Model):
     salary_max = db.Column(db.String(50))
     posting_date = db.Column(db.DateTime, nullable=False)
     closing_date = db.Column(db.DateTime)
-    isActive = db.Column(db.Boolean, nullable=False,default=1)
+    isActive = db.Column(db.Boolean, nullable=True,default=1)
 
     def __init__(self,  company_name, job_title, job_description, salary_min, salary_max, posting_date, closing_date, isActive):
         self.company_name = company_name
@@ -105,10 +104,8 @@ class Job_postings(db.Model):
 class Resumes(db.Model):
     __tablename__ = 'resumes'
 
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    candidate_id = db.Column(db.Integer, db.ForeignKey(
-        'candidates.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True, nullable=False)
+    candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
     creation_date = db.Column(db.DateTime, default=func.now(),nullable=False)
     educations = db.relationship('Educations', backref='resume')
     experiences = db.relationship('Experiences', backref='resume')

@@ -5,14 +5,13 @@ import * as Yup from "yup";
 import Headline from "../layouts/Headline";
 import CandidateService from "../services/candidateService";
 import DateLabel from "../layouts/DateLabel";
-import MessageModal from "../layouts/MessageModal";
 import { Container, Grid, Label, Form, Button } from "semantic-ui-react";
 
 export default function CandidateUpdate() {
   let { id } = useParams();
 
   const [candidate, setCandidate] = useState({});
-  const [open, setOpen] = useState(false);
+  const [setOpen] = useState(false);
 
   let candidateService = new CandidateService();
 
@@ -24,8 +23,7 @@ export default function CandidateUpdate() {
 
   const initialValues = {
     id: id,
-    firstName: candidate.firstName,
-    lastName: candidate.lastName,
+    name: candidate.name,
     identityNumber: candidate.identityNumber,
     dateOfBirth: candidate.dateOfBirth,
     email: candidate.email,
@@ -33,8 +31,7 @@ export default function CandidateUpdate() {
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string(),
-    lastName: Yup.string(),
+    name: Yup.string(),
     identityNumber: Yup.string().length(11, "Not 11 Characters in Length"),
     dateOfBirth: Yup.date(),
     email: Yup.string().email("Not a Valid Email"),
@@ -64,7 +61,7 @@ export default function CandidateUpdate() {
   return (
     <div>
       <Container className="content">
-        <Headline content="Aday Güncelleme" />
+        <Headline content="Update Candidate" />
 
         <Grid>
           <Grid.Row>
@@ -76,7 +73,7 @@ export default function CandidateUpdate() {
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Input
                     name="name"
-                    label="Name Surname"
+                    label="Ad Soyad"
                     focus
                     placeholder={candidate.name}
                     onChange={(event, data) => handleChange("name", data.value)}
@@ -98,7 +95,7 @@ export default function CandidateUpdate() {
                   <Form.Group widths="equal">
                     <Form.Input
                       name="identityNumber"
-                      label="Identity Number"
+                      label="Tc Kimlik Numarası"
                       focus
                       placeholder={candidate.identityNumber}
                       onChange={(event, data) =>
@@ -108,7 +105,7 @@ export default function CandidateUpdate() {
                     />
                     <Form.Input
                       name="dateOfBirth"
-                      label="Date of Birth"
+                      label="Doğum Tarihi"
                       focus
                       placeholder={candidate.dateOfBirth}
                       onChange={(event, data) =>
@@ -178,7 +175,7 @@ export default function CandidateUpdate() {
                   )}
                   <Form.Input
                     name="password"
-                    label="Password"
+                    label="Şifre"
                     focus
                     placeholder="* * * * * *"
                     onChange={(event, data) =>
@@ -206,7 +203,7 @@ export default function CandidateUpdate() {
                     fluid
                     type="submit"
                     color="yellow"
-                    content="Update"
+                    content="Güncelle"
                     disabled={!formik.dirty}
                   />
                 </Form>
@@ -215,13 +212,6 @@ export default function CandidateUpdate() {
             <Grid.Column width="3" />
           </Grid.Row>
         </Grid>
-
-        <MessageModal
-          onClose={() => handleModal(false)}
-          onOpen={() => handleModal(true)}
-          open={open}
-          content="Updated !"
-        />
       </Container>
     </div>
   );

@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -37,14 +39,15 @@
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           {% if candidate.is_authenticated %}
-          <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-          <a class="nav-item nav-link" id="rsmAdd" href="/resumes/add">RSM Add</a>
-          <a class="nav-item nav-link" id="ExpAdd" href="/experiences/add">Exp Add</a>
-          <a class="nav-item nav-link" id="EduAdd" href="/educations/add">Edu Add</a>
+          <a class="nav-item nav-link" id="home" href="/">Ana Sayfa</a>
+          <a class="nav-item nav-link" id="rsmAdd" href="/resumes/add">Özgeçmiş Ekle</a>
+          <a class="nav-item nav-link" id="ExpAdd" href="/experiences/add">Deneyim Ekle</a>
+          <a class="nav-item nav-link" id="EduAdd" href="/educations/add">Eğitim Ekle</a>
+          <a class="nav-item nav-link" id="JobAdd" href="/job_postings/add">İş İlanı Ekle</a>
+          <a class="nav-item nav-link" id="logout" href="/logout">Çıkış</a>
           {% else %}
-          <a class="nav-item nav-link" id="login" href="/login">Login</a>
-          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          <a class="nav-item nav-link" id="login" href="/login">Giriş Yap</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Kayıt Ol</a>
           {% endif %}
         </div>
       </div>

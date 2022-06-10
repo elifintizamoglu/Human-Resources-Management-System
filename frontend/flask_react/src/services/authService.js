@@ -1,28 +1,16 @@
 import axios from "axios";
 
 export default class AuthService {
-  loginCandidate(values) {
+  login(values) {
     return axios
-      .all([axios.get(`http://localhost:5000/login/candidate`)])
-      .then(axios.post(`http://localhost:5000/login/candidate`, values));
+      .all([axios.get(`http://localhost:5000/login`)])
+      .then(axios.post(`http://localhost:5000/login`, values));
   }
 
-  loginEmployer(values) {
+  signUp(values) {
      return axios
-       .all([axios.get(`http://localhost:5000/login/employer`)])
-       .then(axios.post(`http://localhost:5000/login/employer`, values));
-  }
-
-  signUpCandidate(values) {
-     return axios
-       .all([axios.get(`http://localhost:5000/sign-up/candidate`)])
-       .then(axios.post(`http://localhost:5000/sign-up/candidate`, values));
-  }
-
-  signUpEmployer(values) {
-     return axios
-       .all([axios.get(`http://localhost:5000/sign-up/employer`)])
-       .then(axios.post(`http://localhost:5000/sign-up/employer`, values));
+       .all([axios.get(`http://localhost:5000/sign-up`)])
+       .then(axios.post(`http://localhost:5000/sign-up`, values));
   }
 
   logout() {

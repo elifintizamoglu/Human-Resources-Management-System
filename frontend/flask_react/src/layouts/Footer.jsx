@@ -11,14 +11,13 @@ export default function Footer() {
       <Grid>
         <Grid.Row centered>
           <List link horizontal>
-            <List.Item as={NavLink} to="/home" content="Home" />
-            <List.Item as={NavLink} to="/jobPostings" content="Job Postings" />
-            <List.Item as={NavLink} to="/candidates" content="Candidates" />
-            <List.Item as={NavLink} to="/employers" content="Employers" />
+            <List.Item as={NavLink} to="/home" content="Ana Sayfa" />
+            <List.Item as={NavLink} to="/jobPostings" content="İş İlanları" />
+            <List.Item as={NavLink} to="/candidates" content="Adaylar" />
           </List>
         </Grid.Row>
         <Grid.Row centered>
-          2022-Necibe Büşra Uylaş ve Elif İntizamoğlu
+          Necibe Büşra Uylaş
         </Grid.Row>
         <Grid.Row centered>
           <List link horizontal>
@@ -28,14 +27,21 @@ export default function Footer() {
             >
               <Icon name="github" size="large" />
             </List.Item>
-            <List.Item href="https://github.com/elifintizamoglu" target="blank">
-              <Icon name="github" size="large" />
-            </List.Item>
             <List.Item
               href="https://www.linkedin.com/in/necibebusrauylas/"
               target="blank"
             >
               <Icon name="linkedin" size="large" />
+            </List.Item>
+          </List>
+        </Grid.Row>
+        <Grid.Row centered>
+          Elif İntizamoğlu
+        </Grid.Row>
+        <Grid.Row centered>
+          <List link horizontal>
+            <List.Item href="https://github.com/elifintizamoglu" target="blank">
+              <Icon name="github" size="large" />
             </List.Item>
             <List.Item
               href="http://www.linkedin.com/in/elif-intizamoglu"

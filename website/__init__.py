@@ -5,9 +5,6 @@ from flask_migrate import Migrate
 from os import path
 from flask_login import LoginManager
 
-
-#from website.models import Candidates
-
 db=SQLAlchemy()
 
 def create_app():

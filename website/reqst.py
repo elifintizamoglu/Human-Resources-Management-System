@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from sqlalchemy import true
 from .models import Candidates,Educations,Experiences,Job_postings,Resumes
 from .models import format_candidates,format_educations,format_experiences,format_resumes,format_job_postings
 from flask import Blueprint, render_template, request, session
@@ -7,7 +9,7 @@ from . import db
 
 reqst = Blueprint('reqst', __name__)
 
-@reqst.route('/candidates/add', methods=['GET','POST'])
+@reqst.route('/candidates/add', methods=['POST'])
 @login_required
 def crate_candidate():
     name = request.form.get('name')
@@ -23,12 +25,11 @@ def crate_candidate():
 
 
 @reqst.route('/candidates/get', methods=['GET'])
-@login_required
 def get_candidates():
     candidates = Candidates.query.order_by(Candidates.id.asc()).all()
     candidate_lists = []
     for candidate in candidates:
-        candidate_lists.reqstend(format_candidates(candidate))
+        candidate_lists.append(format_candidates(candidate))
     return {'Candidates': candidate_lists}
 
 
@@ -49,6 +50,16 @@ def delete_candidate(id):
     return f'Candidate (id: {id}) deleted'
 
 
+@reqst.route('/candidates/get/<id>/all/info', methods=['GET'])
+@login_required
+def get_candidate_all_info():
+    candidate = Candidates.query.filter_by(id=session.get("id")).one()
+    resume = Resumes.query.filter_by(id=session.get("resume_id")).one()
+    experiences = Experiences.query.filter_by(resume_id=session.get("resume_id"))
+    educations = Educations.query.filter_by(resume_id=session.get("resume_id"))
+    return {candidate,resume,experiences,educations}
+
+
 @reqst.route('/candidates/update/<id>', methods=['PUT'])
 @login_required
 def update_candidate():
@@ -66,19 +77,23 @@ def update_candidate():
 @reqst.route('/job_postings/add', methods=['GET','POST'])
 @login_required
 def create_job_posting():
-    company_name = request.form.get('company_name')
-    job_title = request.form.get('job_title_id')
-    job_description = request.form.get('job_description')
-    salary_min = request.form.get('salary_min')
-    salary_max = request.form.get('salary_max')
-    posting_date = request.form.get('posting_date')
-    closing_date = request.form.get('closing_date')
-    isActive = request.form.get('isActive')
-    new_job_posting = Job_postings(company_name=company_name, job_title=job_title, job_description=job_description,
-                                   salary_min=salary_min, salary_max=salary_max, posting_date=posting_date, closing_date=closing_date, isActive=isActive)
-    db.session.add(new_job_posting)
-    db.session.commit()
-    return format_job_postings(new_job_posting)
+
+    if request.method == 'POST':
+        company_name = request.form.get('company_name')
+        job_title = request.form.get('job_title')
+        job_description = request.form.get('job_description')
+        salary_min = request.form.get('salary_min')
+        salary_max = request.form.get('salary_max')
+        posting_date = request.form.get('posting_date')
+        closing_date = request.form.get('closing_date')
+        isActive = request.form.get('isActive')
+
+        new_job_posting = Job_postings(company_name=company_name, job_title=job_title, job_description=job_description,
+                                    salary_min=salary_min, salary_max=salary_max, posting_date=posting_date, closing_date=closing_date, isActive=isActive)
+        db.session.add(new_job_posting)
+        db.session.commit()
+    
+    return render_template("job_posting.html", candidate=current_user)
 
 
 @reqst.route('/job_postings/get', methods=['GET'])
@@ -183,7 +198,7 @@ def update_resume():
     return {'Resume': format_resumes(resume.one())}
 
 
-@reqst.route('/experiences/add', methods=['GET','POST'])
+@reqst.route('/experiences/add', methods=['GET', 'POST'])
 @login_required
 def create_experience():
     if request.method == 'POST':
@@ -241,7 +256,7 @@ def update_experience():
     return {'Experience': format_experiences(experience.one())}
 
 
-@reqst.route('/educations/add', methods=['GET','POST'])
+@reqst.route('/educations/add', methods=['GET', 'POST'])
 @login_required
 def create_education():
     if request.method == 'POST':

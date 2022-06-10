@@ -14,32 +14,26 @@ export default function Navi() {
             color="violet"
             className="orbitron"
             icon="cube"
-            content="HRMS"
+            content="İnsan Kaynakları Yönetim Sistemi"
           />
         </Menu.Item>
         <Menu.Item
           as={NavLink}
           to="/home"
           icon="circle notched"
-          content="Home"
+          content="Ana Sayfa"
         />
         <Menu.Item
           as={NavLink}
           to="/jobPostings"
           icon="list alternate outline"
-          content="Job Postings"
+          content="İş İlanları"
         />
         <Menu.Item
           as={NavLink}
           to="/candidates"
           icon="user outline"
-          content="Candidates"
-        />
-        <Menu.Item
-          as={NavLink}
-          to="/employers"
-          icon="building outline"
-          content="Employers"
+          content="Adaylar"
         />
         <Menu.Menu position="right">
           <Menu.Item position="right">

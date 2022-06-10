@@ -28,10 +28,8 @@ class Candidates(db.Model, UserMixin):
 class Educations(db.Model):
     __tablename__ = 'educations'
 
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    resume_id = db.Column(db.Integer, db.ForeignKey(
-        'resumes.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True, nullable=False)
+    resume_id = db.Column(db.Integer, db.ForeignKey('resumes.id'), nullable=False)
     name_of_educational_institution = db.Column(db.String(150), nullable=False)
     department = db.Column(db.String(150), nullable=False)
     degree = db.Column(db.String(50), nullable=False)
@@ -53,10 +51,8 @@ class Educations(db.Model):
 class Experiences(db.Model):
     __tablename__ = 'experiences'
 
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    resume_id = db.Column(db.Integer, db.ForeignKey(
-        'resumes.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True, nullable=False)
+    resume_id = db.Column(db.Integer, db.ForeignKey('resumes.id'), nullable=False)
     job_title = db.Column(db.String(50),  nullable=False)
     company_name = db.Column(db.String(150), nullable=False)
     starting_date = db.Column(db.DateTime, nullable=False)
